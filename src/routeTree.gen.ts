@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BuscaRouteImport } from './routes/busca'
+import { Route as CanaisRouteImport } from './routes/canais'
+import { Route as ProgramacaoRouteImport } from './routes/programacao'
+import { Route as CanalIdRouteImport } from './routes/canal.$id'
+import { Route as EsportesIndexRouteImport } from './routes/esportes.index'
+import { Route as EsportesSlugRouteImport } from './routes/esportes.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuscaRoute = BuscaRouteImport.update({
+  id: '/busca',
+  path: '/busca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CanaisRoute = CanaisRouteImport.update({
+  id: '/canais',
+  path: '/canais',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramacaoRoute = ProgramacaoRouteImport.update({
+  id: '/programacao',
+  path: '/programacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CanalIdRoute = CanalIdRouteImport.update({
+  id: '/canal/$id',
+  path: '/canal/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsportesIndexRoute = EsportesIndexRouteImport.update({
+  id: '/esportes/',
+  path: '/esportes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsportesSlugRoute = EsportesSlugRouteImport.update({
+  id: '/esportes/$slug',
+  path: '/esportes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/busca': typeof BuscaRoute
+  '/canais': typeof CanaisRoute
+  '/programacao': typeof ProgramacaoRoute
+  '/canal/$id': typeof CanalIdRoute
+  '/esportes/$slug': typeof EsportesSlugRoute
+  '/esportes/': typeof EsportesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/busca': typeof BuscaRoute
+  '/canais': typeof CanaisRoute
+  '/programacao': typeof ProgramacaoRoute
+  '/canal/$id': typeof CanalIdRoute
+  '/esportes/$slug': typeof EsportesSlugRoute
+  '/esportes': typeof EsportesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/busca': typeof BuscaRoute
+  '/canais': typeof CanaisRoute
+  '/programacao': typeof ProgramacaoRoute
+  '/canal/$id': typeof CanalIdRoute
+  '/esportes/$slug': typeof EsportesSlugRoute
+  '/esportes/': typeof EsportesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/busca'
+    | '/canais'
+    | '/programacao'
+    | '/canal/$id'
+    | '/esportes/$slug'
+    | '/esportes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/busca'
+    | '/canais'
+    | '/programacao'
+    | '/canal/$id'
+    | '/esportes/$slug'
+    | '/esportes'
+  id:
+    | '__root__'
+    | '/'
+    | '/busca'
+    | '/canais'
+    | '/programacao'
+    | '/canal/$id'
+    | '/esportes/$slug'
+    | '/esportes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuscaRoute: typeof BuscaRoute
+  CanaisRoute: typeof CanaisRoute
+  ProgramacaoRoute: typeof ProgramacaoRoute
+  CanalIdRoute: typeof CanalIdRoute
+  EsportesSlugRoute: typeof EsportesSlugRoute
+  EsportesIndexRoute: typeof EsportesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/busca': {
+      id: '/busca'
+      path: '/busca'
+      fullPath: '/busca'
+      preLoaderRoute: typeof BuscaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/canais': {
+      id: '/canais'
+      path: '/canais'
+      fullPath: '/canais'
+      preLoaderRoute: typeof CanaisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programacao': {
+      id: '/programacao'
+      path: '/programacao'
+      fullPath: '/programacao'
+      preLoaderRoute: typeof ProgramacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/canal/$id': {
+      id: '/canal/$id'
+      path: '/canal/$id'
+      fullPath: '/canal/$id'
+      preLoaderRoute: typeof CanalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/esportes/': {
+      id: '/esportes/'
+      path: '/esportes'
+      fullPath: '/esportes/'
+      preLoaderRoute: typeof EsportesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/esportes/$slug': {
+      id: '/esportes/$slug'
+      path: '/esportes/$slug'
+      fullPath: '/esportes/$slug'
+      preLoaderRoute: typeof EsportesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuscaRoute: BuscaRoute,
+  CanaisRoute: CanaisRoute,
+  ProgramacaoRoute: ProgramacaoRoute,
+  CanalIdRoute: CanalIdRoute,
+  EsportesSlugRoute: EsportesSlugRoute,
+  EsportesIndexRoute: EsportesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
