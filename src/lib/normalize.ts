@@ -1,7 +1,7 @@
 import type { Category, Channel, ChannelsData, EpgMap, Program, SportEvent } from "./types";
 
 const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
-const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object";
+const isObj = (v: unknown): v is any => !!v && typeof v === "object";
 
 export function normalizeChannels(raw: unknown): ChannelsData {
   if (!isObj(raw)) throw new Error("Resposta inválida da API de canais");
