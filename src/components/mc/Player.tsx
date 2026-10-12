@@ -13,6 +13,14 @@ export function Player({ src, title, onPrev, onNext }: Props) {
   const [slow, setSlow] = useState(false);
   const [fs, setFs] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [unlocked, setUnlocked] = useState(false);
+
+  useEffect(() => setUnlocked(false), [src]);
+
+  const unlock = () => {
+    if (src) window.open(src, "_blank", "noopener,noreferrer");
+    setUnlocked(true);
+  };
 
   useEffect(() => {
     setLoading(true);
