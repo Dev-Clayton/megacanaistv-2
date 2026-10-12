@@ -1,7 +1,7 @@
 import type { Category, Channel, ChannelsData, EpgMap, Program, SportEvent } from "./types";
 
 const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
-const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object";
+const isObj = (v: unknown): v is any => !!v && typeof v === "object";
 
 export function normalizeChannels(raw: unknown): ChannelsData {
   if (!isObj(raw)) throw new Error("Resposta inválida da API de canais");
@@ -26,7 +26,7 @@ export function normalizeChannels(raw: unknown): ChannelsData {
     if (!id || !name || seen.has(id)) continue;
     seen.add(id);
     const cats = Array.isArray(c.categories)
-      ? [...new Set(c.categories.map(Number).filter(Number.isFinite))]
+      ? [...new Set((c.categories as unknown[]).map(Number).filter(Number.isFinite))]
       : [];
     channels.push({
       id,
@@ -63,7 +63,7 @@ export function normalizeEvents(raw: unknown): SportEvent[] {
       away: team(teams.away),
       start: str(e.time_start),
       end: str(e.time_end),
-      players: Array.isArray(e.players) ? e.players.map(str).filter((p): p is string => !!p) : [],
+      players: Array.isArray(e.players) ? (e.players as unknown[]).map(str).filter((p): p is string => !!p) : [],
     });
   }
   return out;

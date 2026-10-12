@@ -38,6 +38,6 @@ describe("channels normalization", () => {
     });
     expect(d.categories[0]).toEqual({ id: 0, name: "Todos" });
     expect(d.channels).toHaveLength(1);
-    expect(d.channels[0].categories).toEqual([1]);
+    expect(d.channels[0]!.categories).toEqual([1]);
   });
 });

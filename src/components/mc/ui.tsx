@@ -6,7 +6,7 @@ import type { Channel, SportEvent } from "@/lib/types";
 import { eventStatus, formatDay, formatTime, type EventStatus } from "@/lib/time";
 import { cn } from "@/lib/utils";
 
-export function SafeImg({ src, alt, className, fallback }: { src?: string; alt: string; className?: string; fallback?: ReactNode }) {
+export function SafeImg({ src, alt, className, fallback }: { src?: string | undefined; alt: string; className?: string | undefined; fallback?: ReactNode }) {
   const [failed, setFailed] = useState(false);
   if (!src || failed)
     return <>{fallback ?? <div className={cn("flex items-center justify-center bg-surface text-muted-foreground", className)}><Tv className="size-1/3 max-w-10" /></div>}</>;

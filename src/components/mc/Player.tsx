@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Loader2, Maximize, Minimize, RotateCw, TvMinimal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Props = { src?: string; title: string; onPrev?: () => void; onNext?: () => void };
+type Props = { src?: string | undefined; title: string; onPrev?: () => void; onNext?: () => void };
 
 const btn = "inline-flex min-h-10 items-center gap-2 rounded-lg bg-secondary px-3 text-sm font-semibold transition hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring outline-none";
 

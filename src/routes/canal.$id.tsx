@@ -48,7 +48,7 @@ function ChannelPage() {
   if (!channel) return null;
   const go = (i: number) => {
     const n = data.channels.length;
-    navigate({ to: "/canal/$id", params: { id: data.channels[(i + n) % n].id } });
+    navigate({ to: "/canal/$id", params: { id: data.channels[(i + n) % n]!.id } });
   };
   const cats = data.categories.filter((c) => c.id !== 0 && channel.categories.includes(c.id));
   const related = data.channels.filter((c) => c.id !== channel.id && c.categories.some((x) => x !== 0 && channel.categories.includes(x))).slice(0, 20);
