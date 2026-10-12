@@ -28,7 +28,7 @@ function Guide() {
   const term = q.toLowerCase();
 
   const rows = data.channels
-    .map((c) => ({ c, w: epg.data?.[c.id] && now ? programWindow(epg.data[c.id], now, 3) : undefined }))
+    .map((c) => ({ c, w: epg.data?.[c.id] && now ? programWindow(epg.data[c.id]!, now, 3) : undefined }))
     .filter(({ c, w }) => w && (w.current || w.upcoming.length))
     .filter(({ c, w }) => !term || c.name.toLowerCase().includes(term) || [w!.current, ...w!.upcoming].some((p) => p?.title.toLowerCase().includes(term)));
 

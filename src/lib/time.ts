@@ -19,7 +19,7 @@ export function formatDay(iso?: string) {
 /** Index of the program airing at `now`, or -1. Programs must be sorted by start. */
 export function currentProgramIndex(programs: Program[], now: number): number {
   for (let i = programs.length - 1; i >= 0; i--) {
-    const start = Date.parse(programs[i].start);
+    const start = Date.parse(programs[i]!.start);
     if (start <= now) {
       const next = programs[i + 1];
       const end = next ? Date.parse(next.start) : start + LAST_PROGRAM_MAX_MS;
@@ -34,7 +34,7 @@ export function programWindow(programs: Program[], now: number, count = 8) {
   const cur = currentProgramIndex(programs, now);
   const upcoming = programs.filter((p) => Date.parse(p.start) > now);
   return {
-    current: cur >= 0 ? programs[cur] : undefined,
+    current: cur >= 0 ? programs[cur]! : undefined,
     currentEnd: cur >= 0 ? programs[cur + 1]?.start : undefined,
     upcoming: upcoming.slice(0, count),
   };

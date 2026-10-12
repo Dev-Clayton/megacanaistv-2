@@ -26,7 +26,7 @@ export function normalizeChannels(raw: unknown): ChannelsData {
     if (!id || !name || seen.has(id)) continue;
     seen.add(id);
     const cats = Array.isArray(c.categories)
-      ? [...new Set(c.categories.map(Number).filter(Number.isFinite))]
+      ? [...new Set((c.categories as unknown[]).map(Number).filter(Number.isFinite))]
       : [];
     channels.push({
       id,
@@ -63,7 +63,7 @@ export function normalizeEvents(raw: unknown): SportEvent[] {
       away: team(teams.away),
       start: str(e.time_start),
       end: str(e.time_end),
-      players: Array.isArray(e.players) ? e.players.map(str).filter((p): p is string => !!p) : [],
+      players: Array.isArray(e.players) ? (e.players as unknown[]).map(str).filter((p): p is string => !!p) : [],
     });
   }
   return out;
