@@ -19,7 +19,7 @@ export function ChannelCard({ channel, className }: { channel: Channel; classNam
       to="/canal/$id"
       params={{ id: channel.id }}
       className={cn(
-        "group block overflow-hidden rounded-xl bg-card shadow-card outline-none transition duration-300 hover:-translate-y-1 hover:shadow-glow focus-visible:shadow-glow",
+        "group block overflow-hidden rounded-xl bg-card shadow-card outline-none transition duration-300 hover:-translate-y-1 hover:shadow-glow focus:shadow-glow focus:ring-2 focus:ring-ring",
         className,
       )}
     >
@@ -43,7 +43,20 @@ export function ChannelCard({ channel, className }: { channel: Channel; classNam
 
 export function Carousel({ title, to, children }: { title: string; to?: ReactNode; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const scroll = (dir: number) => ref.current?.scrollBy({ left: dir * ref.current.clientWidth * 0.85, behavior: "smooth" });
+  const scroll = (dir: number) => {
+    const el = ref.current;
+    if (!el) return;
+    const distance = dir * el.clientWidth * 0.85;
+    if (typeof el.scrollBy === "function") el.scrollBy({ left: distance, behavior: "smooth" });
+    else el.scrollLeft += distance;
+  };
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const target = e.target as HTMLElement;
+    if (target.matches("input, textarea, select")) return;
+    e.preventDefault();
+    scroll(e.key === "ArrowLeft" ? -1 : 1);
+  };
   return (
     <section className="group/row relative">
       <div className="mb-3 flex items-end justify-between gap-4 px-4 md:px-10">
@@ -51,7 +64,7 @@ export function Carousel({ title, to, children }: { title: string; to?: ReactNod
         {to}
       </div>
       <div className="relative">
-        <div ref={ref} className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 pt-1 md:scroll-px-10 md:gap-4 md:px-10">
+        <div ref={ref} onKeyDown={onKeyDown} className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 pt-1 md:scroll-px-10 md:gap-4 md:px-10" aria-label={title}>
           {children}
         </div>
         {(["left", "right"] as const).map((side) => (
@@ -60,7 +73,7 @@ export function Carousel({ title, to, children }: { title: string; to?: ReactNod
             aria-label={side === "left" ? "Anterior" : "Próximo"}
             onClick={() => scroll(side === "left" ? -1 : 1)}
             className={cn(
-              "absolute top-1 bottom-4 z-10 hidden w-10 items-center justify-center bg-scrim/70 opacity-0 transition group-hover/row:opacity-100 focus-visible:opacity-100 md:flex",
+              "mc-carousel-control absolute top-1 bottom-4 z-10 hidden w-12 items-center justify-center bg-scrim/70 opacity-0 transition group-hover/row:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring md:flex",
               side === "left" ? "left-0 rounded-r-lg" : "right-0 rounded-l-lg",
             )}
           >
@@ -104,7 +117,7 @@ export function EventCard({ event, now, className }: { event: SportEvent; now: n
     <Link
       to="/esportes/$slug"
       params={{ slug: event.slug }}
-      className={cn("block rounded-xl border bg-card p-4 shadow-card transition hover:-translate-y-0.5 hover:shadow-glow focus-visible:shadow-glow outline-none", className)}
+      className={cn("block rounded-xl border bg-card p-4 shadow-card transition hover:-translate-y-0.5 hover:shadow-glow focus:shadow-glow focus:ring-2 focus:ring-ring outline-none", className)}
     >
       <div className="mb-3 flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
@@ -142,7 +155,7 @@ export function ErrorState({ message, onRetry }: { message?: string; onRetry?: (
       <h2 className="text-xl font-bold">Não foi possível carregar</h2>
       <p className="text-sm text-muted-foreground">{message ?? "Verifique sua conexão e tente novamente."}</p>
       {onRetry && (
-        <button onClick={onRetry} className="mt-2 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-bold text-primary-foreground">
+        <button onClick={onRetry} className="mt-2 inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-bold text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring">
           <RotateCw className="size-4" /> Tentar novamente
         </button>
       )}
