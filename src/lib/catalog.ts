@@ -31,6 +31,22 @@ async function getText(url: string): Promise<string> {
   if (!response.ok) throw new Error(`Lista de catálogo respondeu HTTP ${response.status}`);
   return response.text();
 }
+
+function extractNumericIds(raw: string): string[] {
+  // A lista oficial é TXT com um ID por linha; também toleramos JSON ou separadores variados.
+  const source = raw.replace(/^\uFEFF/, "");
+  const values = source.match(/\b\d{1,12}\b/g) ?? [];
+  return [...new Set(values)];
+}
+
+function parseListRows(raw: unknown): Record<string, any>[] {
+  if (Array.isArray(raw)) return raw.filter(object);
+  if (!object(raw)) return [];
+  if (Array.isArray(raw.items)) return raw.items.filter(object);
+  if (Array.isArray(raw.results)) return raw.results.filter(object);
+  if (Array.isArray(raw.data)) return raw.data.filter(object);
+  return [];
+}
 function tmdbCredentials() {
   if (typeof process === "undefined") return {};
   return {
@@ -80,7 +96,7 @@ async function enrichWithTmdb(item: CatalogItem): Promise<CatalogItem> {
 async function readSeriesList(kind: Exclude<CatalogKind, "movie">, enrich = true): Promise<CatalogItem[]> {
   const endpoint = kind === "tv" ? "list-tv-ids.txt" : kind === "anime" ? "list-anime-ids.txt" : "list-dorama-ids.txt";
   const raw = await getJson(`${API}/${endpoint}`);
-  const rows = Array.isArray(raw) ? raw : object(raw) && Array.isArray(raw.items) ? raw.items : [];
+  const rows = parseListRows(raw);
   const items: CatalogItem[] = [];
   const seen = new Set<string>();
   for (const row of rows) {
@@ -108,7 +124,7 @@ async function readSeriesList(kind: Exclude<CatalogKind, "movie">, enrich = true
       seasons,
     });
   }
-  const selected = items.slice(0, 48);
+  const selected = items.slice(0, 120);
   const { apiKey, accessToken } = tmdbCredentials();
   if (!enrich || (!apiKey && !accessToken)) return selected;
   const enriched: CatalogItem[] = [];
@@ -118,7 +134,8 @@ async function readSeriesList(kind: Exclude<CatalogKind, "movie">, enrich = true
 
 async function readMovies(): Promise<CatalogItem[]> {
   const text = await getText(`${API}/list-movie-ids.txt`);
-  const ids = [...new Set(text.split(/\s+/).map((v) => v.trim()).filter((v) => /^\d+$/.test(v)))].slice(0, 48);
+  const ids = extractNumericIds(text).slice(0, 120);
+  if (!ids.length) throw new Error("A lista de filmes da RedeFlixApi não retornou IDs TMDB válidos. Confira https://redeflixapi.store/list-movie-ids.txt.");
   const items: CatalogItem[] = ids.map((id) => ({ id, title: `Filme ${id}`, kind: "movie" }));
   const { apiKey, accessToken } = tmdbCredentials();
   if (!apiKey && !accessToken) return items;
