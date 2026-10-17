@@ -31,13 +31,17 @@ npm run dev
 - `/filmes`: lê os IDs de filmes de `https://redeflixapi.store/list-movie-ids.txt`.
 - `/series`: oferece Séries, Animes e Doramas com as listas JSON da RedeFlixApi.
 - `/filme/:id` e `/serie/:id`: páginas de detalhes com o componente de player usado pelos canais.
-- As informações de título, sinopse, ano, avaliação e pôster são enriquecidas pela API do TMDB quando `TMDB_API_KEY` está configurada no ambiente do servidor.
-- Sem a chave TMDB, as páginas continuam funcionando com os IDs e metadados que vierem nas listas da RedeFlixApi, mas os filmes podem aparecer somente como “Filme + ID”.
+- As informações de título, sinopse, ano, avaliação e pôster são enriquecidas pela API do TMDB em português do Brasil.
+- O catálogo aceita `TMDB_API_KEY` (chave de API) ou `TMDB_ACCESS_TOKEN` (Read Access Token Bearer).
+- Sem credenciais TMDB, as páginas continuam funcionando com os IDs e metadados que vierem nas listas da RedeFlixApi, mas filmes podem aparecer somente como “Filme + ID”.
+- Os players de filmes e episódios usam o mesmo componente de player das páginas de canais, com controles de recarregar, ampliar e liberar acesso.
 
-Configure `TMDB_API_KEY` como variável de ambiente/secret do servidor (não use prefixo `VITE_`, para não expor a chave no navegador). Para desenvolvimento local, crie um arquivo `.env` a partir do exemplo abaixo:
+Configure uma destas variáveis como secret do servidor (não use prefixo `VITE_`, para não expor credenciais no navegador). Para desenvolvimento local, crie um arquivo `.env`:
 
 ```env
 TMDB_API_KEY=sua_chave_de_api_tmdb
+# Alternativamente, use o Read Access Token do TMDB:
+TMDB_ACCESS_TOKEN=seu_read_access_token
 ```
 
 A integração usa os endpoints de filmes e séries do TMDB em português do Brasil. Consulte os termos de uso e inclua a atribuição exigida pelo TMDB na versão publicada.
