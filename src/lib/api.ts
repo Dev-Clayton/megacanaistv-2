@@ -62,10 +62,10 @@ export const fetchChannels = createServerFn({ method: "GET" }).handler(async () 
   ),
 );
 export const fetchEvents = createServerFn({ method: "GET" }).handler(async () =>
-  cached("events", 60 * 1000, async () => normalizeEvents(await getJson([`${BASE}/events`])),
+  cached("events", 60 * 1000, async () => normalizeEvents(await getJson([`${BASE}/events`]))),
 );
 export const fetchEpg = createServerFn({ method: "GET" }).handler(async () =>
-  cached("epg", 10 * 60 * 1000, async () => normalizeEpg(await getJson([`${BASE}/epg_all`])),
+  cached("epg", 10 * 60 * 1000, async () => normalizeEpg(await getJson([`${BASE}/epg_all`]))),
 );
 
 export const channelsQuery = queryOptions({
