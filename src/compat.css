@@ -1,11 +1,9 @@
 /* ============================================================
-   Compatibilidade — Smart TVs antigas, Chromecast e navegadores legados
-   Carregado DEPOIS do CSS principal. Regras sem @layer vencem o
-   Tailwind v4 (que usa cascade layers) em navegadores antigos.
-   Tudo é protegido por @supports: navegadores modernos não mudam.
+   Mega Canais TV — fallback visual para Smart TVs e navegadores antigos.
+   Este arquivo é carregado depois de styles.css e não substitui o tema moderno.
    ============================================================ */
 
-/* 1. Cores de fallback quando oklch() / color-mix() não existem */
+/* Fallback de cores para navegadores que não entendem oklch() / color-mix(). */
 @supports not (color: oklch(0.5 0.1 200)) {
   :root {
     --background: #101015;
@@ -27,14 +25,13 @@
     --destructive-foreground: #fafafa;
     --live: #e5484d;
     --scrim: #0a0a0d;
-    --border: rgba(255, 255, 255, 0.09);
-    --input: rgba(255, 255, 255, 0.12);
-    --ring: #e87a1e;
-    --gradient-hero: linear-gradient(90deg, #101015 8%, rgba(16, 16, 21, 0.7) 45%, rgba(16, 16, 21, 0) 80%),
-      linear-gradient(0deg, #101015 0%, rgba(16, 16, 21, 0) 40%);
+    --border: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.16);
+    --ring: #ff9d45;
+    --gradient-hero: linear-gradient(90deg, #101015 8%, rgba(16, 16, 21, 0.7) 45%, rgba(16, 16, 21, 0) 80%), linear-gradient(0deg, #101015 0%, rgba(16, 16, 21, 0) 40%);
     --gradient-brand: linear-gradient(120deg, #e87a1e, #e8a54b);
-    --shadow-card: 0 18px 40px -18px rgba(0, 0, 0, 0.7);
-    --shadow-glow: 0 0 0 1px rgba(232, 122, 30, 0.6), 0 16px 40px -12px rgba(232, 122, 30, 0.45);
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.55);
+    --shadow-glow: 0 0 0 2px rgba(232, 122, 30, 0.75);
     --chart-1: #e87a1e;
     --chart-2: #2fb3a5;
     --chart-3: #5b7fc7;
@@ -46,10 +43,9 @@
     --sidebar-primary-foreground: #2a1503;
     --sidebar-accent: #2b2b33;
     --sidebar-accent-foreground: #f2f2f5;
-    --sidebar-border: rgba(255, 255, 255, 0.09);
-    --sidebar-ring: #e87a1e;
+    --sidebar-border: rgba(255, 255, 255, 0.12);
+    --sidebar-ring: #ff9d45;
   }
-  /* Cores com opacidade que o Tailwind v4 gera com color-mix() */
   .bg-scrim\/80 { background-color: rgba(10, 10, 13, 0.8); }
   .bg-scrim\/70 { background-color: rgba(10, 10, 13, 0.7); }
   .bg-background\/85 { background-color: rgba(16, 16, 21, 0.85); }
@@ -57,57 +53,53 @@
   .bg-primary\/90 { background-color: rgba(232, 122, 30, 0.9); }
 }
 
-/* 2. aspect-ratio ausente (Chromium < 88): técnica do padding */
+/* Proporção de vídeo/card quando aspect-ratio não é suportado. */
 @supports not (aspect-ratio: 1 / 1) {
-  .aspect-video { position: relative; height: 0 !important; padding-top: 56.25%; }
-  .aspect-video > * { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; }
-  .aspect-\[16\/11\] { position: relative; height: 0 !important; padding-top: 68.75%; }
-  .aspect-\[16\/11\] > * { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  .aspect-video,
+  .aspect-\[16\/11\] {
+    position: relative;
+    height: 0 !important;
+    padding-top: 56.25%;
+  }
+  .aspect-video > *,
+  .aspect-\[16\/11\] > * {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .aspect-\[16\/11\] { padding-top: 68.75%; }
 }
 
-/* 3. inset (atalho) ausente (Chromium < 87) */
+/* Fallback para o atalho inset e para CSS Grid em engines antigas. */
 @supports not (inset: 0) {
   .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
 }
-
-/* 4. gap em flexbox ausente (Chromium < 84) */
-@supports not (gap: 1px) {
-  .flex:not(.flex-col):not(.grid).gap-1 > * + * { margin-left: 0.25rem; }
-  .flex:not(.flex-col):not(.grid).gap-2 > * + * { margin-left: 0.5rem; }
-  .flex:not(.flex-col):not(.grid).gap-3 > * + * { margin-left: 0.75rem; }
-  .flex:not(.flex-col):not(.grid).gap-4 > * + * { margin-left: 1rem; }
-  .flex:not(.flex-col):not(.grid).gap-6 > * + * { margin-left: 1.5rem; }
-  .flex.flex-col.gap-1 > * + * { margin-top: 0.25rem; }
-  .flex.flex-col.gap-2 > * + * { margin-top: 0.5rem; }
-  .flex.flex-col.gap-3 > * + * { margin-top: 0.75rem; }
-  .flex.flex-col.gap-4 > * + * { margin-top: 1rem; }
-  .flex.flex-col.gap-5 > * + * { margin-top: 1.25rem; }
-  .flex.flex-col.gap-6 > * + * { margin-top: 1.5rem; }
-}
-
-/* 5. CSS Grid ausente (Chromium < 57): vira flex-wrap com larguras */
 @supports not (display: grid) {
   .grid { display: flex; flex-wrap: wrap; margin-left: -0.5rem; }
-  .grid > * { margin: 0 0.5rem 1rem; }
+  .grid > * { margin: 0 0.5rem 1rem; min-width: 0; }
   .grid-cols-2 > *, .sm\:grid-cols-2 > * { width: calc(50% - 1rem); }
   .grid-cols-3 > *, .md\:grid-cols-3 > * { width: calc(33.333% - 1rem); }
   .grid-cols-4 > *, .md\:grid-cols-4 > * { width: calc(25% - 1rem); }
   .grid-cols-6 > *, .lg\:grid-cols-6 > * { width: calc(16.666% - 1rem); }
 }
 
-/* 6. Foco sempre visível quando :focus-visible não existe (TVs antigas) */
-@supports not selector(:focus-visible) {
-  a:focus, button:focus, select:focus, input:focus, [tabindex]:focus {
-    outline: 3px solid var(--ring);
-    outline-offset: 2px;
-  }
+/* Navegadores antigos podem não entender :focus-visible; mantenha foco explícito. */
+a:focus, button:focus, select:focus, input:focus, textarea:focus, [tabindex]:focus {
+  outline: 3px solid var(--ring, #ff9d45);
+  outline-offset: 3px;
 }
-
-/* Foco programático no conteúdo principal não deve desenhar anel */
+a:focus:not(:focus-visible), button:focus:not(:focus-visible), select:focus:not(:focus-visible),
+input:focus:not(:focus-visible), textarea:focus:not(:focus-visible), [tabindex]:focus:not(:focus-visible) {
+  outline: none;
+}
 main:focus { outline: none; }
 
-/* 7. backdrop-filter com prefixo -webkit- */
+/* Prefere feedback visível a hover, que não existe em muitos controles remotos. */
+@media (hover: none), (pointer: coarse) {
+  .mc-carousel-control { opacity: 1; }
+}
+.mc-carousel-control { min-height: 44px; }
+button, a, select, input, textarea { -webkit-tap-highlight-color: transparent; }
 .backdrop-blur-xl { -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
-
-/* 8. Rolagem suave do carrossel: scroll-behavior smooth não é suportado
-   em navegadores antigos — o carrossel continua rolável normalmente. */
