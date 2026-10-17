@@ -13,6 +13,13 @@ export function Player({ src, title, onPrev, onNext }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
 
+  useEffect(() => setUnlocked(false), [src]);
+
+  const unlock = () => {
+    if (src) window.open(src, "_blank", "noopener,noreferrer");
+    setUnlocked(true);
+  };
+
   useEffect(() => {
     const onChange = () => setFs(document.fullscreenElement === wrap.current);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setExpanded(false);
@@ -67,24 +74,12 @@ export function Player({ src, title, onPrev, onNext }: Props) {
             allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
             allowFullScreen
             referrerPolicy="no-referrer"
-            onLoad={() => setLoading(false)}
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center">
             <TvMinimal className="size-10 text-muted-foreground" />
             <p className="font-semibold">Transmissão indisponível</p>
             <p className="text-sm text-muted-foreground">Este conteúdo não possui um endereço de player no momento.</p>
-          </div>
-        )}
-        {src && loading && (
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 bg-scrim/80">
-            <Loader2 className="size-9 animate-spin text-primary" />
-            <span className="text-sm text-muted-foreground">Carregando {title}…</span>
-            {slow && (
-              <button onClick={() => setNonce((n) => n + 1)} className={cn(btn, "pointer-events-auto")}>
-                <RotateCw className="size-4" /> Está demorando. Tentar novamente
-              </button>
-            )}
           </div>
         )}
       </div>
