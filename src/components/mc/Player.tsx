@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Loader2, Maximize, Minimize, RotateCw, TvMinimal, Unlock } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize, Minimize, RotateCw, TvMinimal, Unlock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = { src?: string | undefined; title: string; onPrev?: () => void; onNext?: () => void };
@@ -9,8 +9,6 @@ const btn = "inline-flex min-h-10 items-center gap-2 rounded-lg bg-secondary px-
 export function Player({ src, title, onPrev, onNext }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const [nonce, setNonce] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [slow, setSlow] = useState(false);
   const [fs, setFs] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
@@ -21,13 +19,6 @@ export function Player({ src, title, onPrev, onNext }: Props) {
     if (src) window.open(src, "_blank", "noopener,noreferrer");
     setUnlocked(true);
   };
-
-  useEffect(() => {
-    setLoading(true);
-    setSlow(false);
-    const t = setTimeout(() => setSlow(true), 15000);
-    return () => clearTimeout(t);
-  }, [src, nonce]);
 
   useEffect(() => {
     const onChange = () => setFs(document.fullscreenElement === wrap.current);
@@ -83,24 +74,12 @@ export function Player({ src, title, onPrev, onNext }: Props) {
             allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
             allowFullScreen
             referrerPolicy="no-referrer"
-            onLoad={() => setLoading(false)}
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center">
             <TvMinimal className="size-10 text-muted-foreground" />
             <p className="font-semibold">Transmissão indisponível</p>
             <p className="text-sm text-muted-foreground">Este conteúdo não possui um endereço de player no momento.</p>
-          </div>
-        )}
-        {src && loading && (
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 bg-scrim/80">
-            <Loader2 className="size-9 animate-spin text-primary" />
-            <span className="text-sm text-muted-foreground">Carregando {title}…</span>
-            {slow && (
-              <button onClick={() => setNonce((n) => n + 1)} className={cn(btn, "pointer-events-auto")}>
-                <RotateCw className="size-4" /> Está demorando. Tentar novamente
-              </button>
-            )}
           </div>
         )}
       </div>
