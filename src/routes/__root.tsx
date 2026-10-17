@@ -28,7 +28,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring"
           >
             Voltar ao início
           </Link>
@@ -60,13 +60,13 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring"
           >
             Tentar novamente
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
           >
             Voltar ao início
           </a>
@@ -87,14 +87,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      {
-        rel: "stylesheet",
-        href: compatCss,
-      },
+      { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: compatCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -125,29 +119,30 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  // TVs/controle remoto: leva o foco ao conteúdo ao trocar de página
+  // Em TVs, leva o foco ao primeiro controle útil da página após a navegação.
   useEffect(() => {
     const main = document.querySelector("main");
     if (!main) return;
-    main.setAttribute("tabindex", "-1");
-    try {
-      main.focus();
-    } catch {
-      /* foco não suportado */
-    }
+    const firstControl = main.querySelector<HTMLElement>(
+      'a[href], button:not([disabled]), select:not([disabled]), input:not([disabled]), [tabindex="0"]',
+    );
+    const target = firstControl ?? main;
+    if (target === main) main.setAttribute("tabindex", "-1");
+    try { target.focus(); } catch { /* foco pode não ser suportado pelo navegador */ }
   }, [pathname]);
 
-  // Botão "Voltar" do controle remoto / tecla Escape: volta uma página
+  // Escape/Voltar: não sequestra a tecla enquanto o usuário edita um campo ou está em tela cheia.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      if (document.fullscreenElement) return;
-      if (document.querySelector(".fixed.z-50")) return; // player ampliado aberto
-      if (window.history.length > 1) window.history.back();
+      if (e.key !== "Escape" || document.fullscreenElement) return;
+      const target = e.target as HTMLElement | null;
+      if (target?.matches("input, textarea, select")) return;
+      if (document.querySelector(".fixed.z-50")) return;
+      if (pathname !== "/" && window.history.length > 1) window.history.back();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
