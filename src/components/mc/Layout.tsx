@@ -70,6 +70,7 @@ export function Footer() {
         </nav>
       </div>
       <p className="mt-8 text-xs text-muted-foreground">© {new Date().getFullYear()} Mega Canais TV. Conteúdo fornecido por terceiros.</p>
+      <p className="mt-2 max-w-3xl text-xs text-muted-foreground">Este produto utiliza a API do TMDB, mas não é endossado nem certificado pelo TMDB.</p>
     </footer>
   );
 }
