@@ -33,7 +33,7 @@ function Home() {
     <div className="space-y-10 pb-6">
       {hero && (
         <section className="relative isolate flex min-h-[62vh] items-end overflow-hidden md:min-h-[72vh]">
-          <SafeImg src={hero.preview ?? hero.image} alt="" className="absolute inset-0 -z-10 size-full object-cover" fallback={<div className="absolute inset-0 -z-10 bg-card" />} />
+          <SafeImg src={hero.preview ?? hero.image} alt="" loading="eager" fetchPriority="high" className="absolute inset-0 -z-10 size-full object-cover" fallback={<div className="absolute inset-0 -z-10 bg-card" />} />
           <div className="absolute inset-0 -z-10 bg-hero-fade" />
           <div className="max-w-xl space-y-5 px-4 pb-12 md:px-10 md:pb-20">
             <span className="inline-flex items-center gap-2 rounded-full bg-live px-3 py-1 text-xs font-bold uppercase tracking-wider">
