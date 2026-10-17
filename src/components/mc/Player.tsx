@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Cast, ChevronLeft, ChevronRight, Maximize, Minimize, RotateCw, TvMinimal, Unlock, X } from "lucide-react";
+import { Cast, ChevronLeft, ChevronRight, Maximize, Minimize, PlayCircle, RotateCw, TvMinimal, Unlock, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Props = { src?: string | undefined; title: string; onPrev?: () => void; onNext?: () => void };
+type Props = { src?: string | undefined; title: string; onPrev?: () => void; onNext?: () => void; mode?: "live" | "on-demand" };
 
 type LegacyFullscreenElement = HTMLElement & {
   webkitRequestFullscreen?: () => Promise<void> | void;
@@ -15,7 +15,7 @@ type LegacyFullscreenDocument = Document & {
 
 const btn = "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-secondary px-3 text-sm font-semibold transition hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring";
 
-export function Player({ src, title, onPrev, onNext }: Props) {
+export function Player({ src, title, onPrev, onNext, mode = "live" }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const [nonce, setNonce] = useState(0);
   const [fs, setFs] = useState(false);
@@ -93,9 +93,9 @@ export function Player({ src, title, onPrev, onNext }: Props) {
         {src && !unlocked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-scrim p-6 text-center">
             <TvMinimal className="size-12 text-primary" />
-            <p className="text-lg font-bold">Assista {title} ao vivo</p>
+            <p className="text-lg font-bold">{mode === "live" ? `Assista ${title} ao vivo` : `Assista ${title}`}</p>
             <p className="max-w-sm text-sm text-muted-foreground">
-              Para liberar o player, clique no botão abaixo. Um link será aberto em uma nova aba e o canal será liberado aqui.
+              Para liberar o player, clique no botão abaixo. Um link será aberto em uma nova aba e o conteúdo será liberado aqui.
             </p>
             <button onClick={unlock} className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-8 py-3 font-bold text-primary-foreground shadow-glow transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-ring">
               <Unlock className="size-5" /> Liberar acesso
@@ -121,7 +121,7 @@ export function Player({ src, title, onPrev, onNext }: Props) {
       </div>
       <div className="flex flex-wrap items-center gap-2 border-t bg-card p-2">
         <span className="mr-auto flex items-center gap-2 truncate px-2 text-sm font-bold">
-          <span className="live-dot size-2 rounded-full bg-live" /> {title}
+          {mode === "live" ? <span className="live-dot size-2 rounded-full bg-live" /> : <PlayCircle className="size-4 shrink-0 text-primary" />} {title}
         </span>
         {onPrev && <button className={btn} onClick={onPrev} aria-label="Canal anterior"><ChevronLeft className="size-4" /><span className="hidden sm:inline">Anterior</span></button>}
         {onNext && <button className={btn} onClick={onNext} aria-label="Próximo canal"><span className="hidden sm:inline">Próximo</span><ChevronRight className="size-4" /></button>}
