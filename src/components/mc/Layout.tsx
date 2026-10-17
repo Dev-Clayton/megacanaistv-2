@@ -5,6 +5,8 @@ import { Search } from "lucide-react";
 const nav = [
   { to: "/", label: "Início" },
   { to: "/canais", label: "Canais" },
+  { to: "/filmes", label: "Filmes" },
+  { to: "/series", label: "Séries" },
   { to: "/esportes", label: "Esportes" },
   { to: "/programacao", label: "Programação" },
 ] as const;
@@ -41,7 +43,7 @@ export function Header() {
           }}
         >
           <Search className="size-4 shrink-0 text-muted-foreground" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar canais e jogos" aria-label="Buscar" className="h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar canais e títulos" aria-label="Buscar" className="h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
         </form>
       </div>
       <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 pb-2 md:hidden" aria-label="Principal móvel">
