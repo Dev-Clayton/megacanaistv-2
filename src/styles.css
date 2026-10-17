@@ -104,12 +104,26 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
   }
-  h1, h2, h3 {
+  h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  button, a, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
   }
 }
 
@@ -178,8 +192,9 @@ main > * {
 img, video, canvas, iframe, svg {
   max-width: 100%;
 }
+/* Evita quebrar imagens que usam size-full/object-cover em banners e cards. */
 img, video {
-  height: auto;
+  max-width: 100%;
 }
 iframe {
   display: block;
@@ -191,8 +206,14 @@ input, select, textarea, button {
 button, a, input, select, textarea {
   touch-action: manipulation;
 }
-h1, h2, h3, p {
-  overflow-wrap: anywhere;
+h1, h2, h3, h4, p {
+  overflow-wrap: break-word;
+}
+p {
+  text-wrap: pretty;
+}
+svg {
+  flex-shrink: 0;
 }
 [class*="grid-cols-"] > *, [class*="flex"] > * {
   min-width: 0;
