@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Loader2, Maximize, Minimize, RotateCw, TvMinimal } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Maximize, Minimize, RotateCw, TvMinimal, Unlock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = { src?: string | undefined; title: string; onPrev?: () => void; onNext?: () => void };
