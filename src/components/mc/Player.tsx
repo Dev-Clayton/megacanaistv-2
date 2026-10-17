@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Loader2, Maximize, Minimize, RotateCw, TvMinimal } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Maximize, Minimize, RotateCw, TvMinimal, Unlock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = { src?: string | undefined; title: string; onPrev?: () => void; onNext?: () => void };
@@ -60,7 +60,21 @@ export function Player({ src, title, onPrev, onNext }: Props) {
   return (
     <div ref={wrap} className={cn("flex flex-col bg-scrim", expanded && "fixed inset-0 z-50", !big && "overflow-hidden rounded-xl shadow-card")}>
       <div className={cn("relative w-full bg-scrim", big ? "flex-1" : "aspect-video")}>
-        {src ? (
+        {src && !unlocked ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-scrim p-6 text-center">
+            <TvMinimal className="size-12 text-primary" />
+            <p className="text-lg font-bold">Assista {title} ao vivo</p>
+            <p className="max-w-sm text-sm text-muted-foreground">
+              Para liberar o player, clique no botão abaixo. Um link será aberto em uma nova aba e o canal será liberado aqui.
+            </p>
+            <button
+              onClick={unlock}
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 font-bold text-primary-foreground shadow-glow transition hover:brightness-110"
+            >
+              <Unlock className="size-5" /> Liberar acesso
+            </button>
+          </div>
+        ) : src ? (
           <iframe
             key={`${src}-${nonce}`}
             src={src}
