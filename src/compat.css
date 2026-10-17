@@ -56,20 +56,20 @@
 /* Proporção de vídeo/card quando aspect-ratio não é suportado. */
 @supports not (aspect-ratio: 1 / 1) {
   .aspect-video,
-  .aspect-\\[16\\/11\\] {
+  .aspect-\[16\/11\] {
     position: relative;
     height: 0 !important;
     padding-top: 56.25%;
   }
   .aspect-video > *,
-  .aspect-\\[16\\/11\\] > * {
+  .aspect-\[16\/11\] > * {
     position: absolute !important;
     top: 0;
     left: 0;
     width: 100% !important;
     height: 100% !important;
   }
-  .aspect-\\[16\\/11\\] { padding-top: 68.75%; }
+  .aspect-\[16\/11\] { padding-top: 68.75%; }
 }
 
 /* Fallback para o atalho inset e para CSS Grid em engines antigas. */
@@ -79,10 +79,10 @@
 @supports not (display: grid) {
   .grid { display: flex; flex-wrap: wrap; margin-left: -0.5rem; }
   .grid > * { margin: 0 0.5rem 1rem; min-width: 0; }
-  .grid-cols-2 > *, .sm\\:grid-cols-2 > * { width: calc(50% - 1rem); }
-  .grid-cols-3 > *, .md\\:grid-cols-3 > * { width: calc(33.333% - 1rem); }
-  .grid-cols-4 > *, .md\\:grid-cols-4 > * { width: calc(25% - 1rem); }
-  .grid-cols-6 > *, .lg\\:grid-cols-6 > * { width: calc(16.666% - 1rem); }
+  .grid-cols-2 > *, .sm\:grid-cols-2 > * { width: calc(50% - 1rem); }
+  .grid-cols-3 > *, .md\:grid-cols-3 > * { width: calc(33.333% - 1rem); }
+  .grid-cols-4 > *, .md\:grid-cols-4 > * { width: calc(25% - 1rem); }
+  .grid-cols-6 > *, .lg\:grid-cols-6 > * { width: calc(16.666% - 1rem); }
 }
 
 /* Navegadores antigos podem não entender :focus-visible; mantenha foco explícito. */
