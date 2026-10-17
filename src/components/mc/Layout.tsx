@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 const nav = [
   { to: "/", label: "Início" },
   { to: "/canais", label: "Canais" },
-undefined  { to: "/esportes", label: "Esportes" },
+  { to: "/esportes", label: "Esportes" },
   { to: "/programacao", label: "Programação" },
 ] as const;
 
