@@ -36,7 +36,27 @@ const CanaisRoute = CanaisRouteImport.update({
   path: '/canais',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FilmesRoute = FilmesRouteImport.update({\n  id: '/filmes',\n  path: '/filmes',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst SeriesRoute = SeriesRouteImport.update({\n  id: '/series',\n  path: '/series',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst FilmeIdRoute = FilmeIdRouteImport.update({\n  id: '/filme/$id',\n  path: '/filme/$id',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst SerieIdRoute = SerieIdRouteImport.update({\n  id: '/serie/$id',\n  path: '/serie/$id',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst ProgramacaoRoute = ProgramacaoRouteImport.update({
+const FilmesRoute = FilmesRouteImport.update({
+  id: '/filmes',
+  path: '/filmes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeriesRoute = SeriesRouteImport.update({
+  id: '/series',
+  path: '/series',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FilmeIdRoute = FilmeIdRouteImport.update({
+  id: '/filme/$id',
+  path: '/filme/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SerieIdRoute = SerieIdRouteImport.update({
+  id: '/serie/$id',
+  path: '/serie/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramacaoRoute = ProgramacaoRouteImport.update({
   id: '/programacao',
   path: '/programacao',
   getParentRoute: () => rootRouteImport,
@@ -168,7 +188,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CanaisRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/filmes': {\n      id: '/filmes'\n      path: '/filmes'\n      fullPath: '/filmes'\n      preLoaderRoute: typeof FilmesRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/series': {\n      id: '/series'\n      path: '/series'\n      fullPath: '/series'\n      preLoaderRoute: typeof SeriesRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/filme/$id': {\n      id: '/filme/$id'\n      path: '/filme/$id'\n      fullPath: '/filme/$id'\n      preLoaderRoute: typeof FilmeIdRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/serie/$id': {\n      id: '/serie/$id'\n      path: '/serie/$id'\n      fullPath: '/serie/$id'\n      preLoaderRoute: typeof SerieIdRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/programacao': {
+    '/filmes': {
+      id: '/filmes'
+      path: '/filmes'
+      fullPath: '/filmes'
+      preLoaderRoute: typeof FilmesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/series': {
+      id: '/series'
+      path: '/series'
+      fullPath: '/series'
+      preLoaderRoute: typeof SeriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filme/$id': {
+      id: '/filme/$id'
+      path: '/filme/$id'
+      fullPath: '/filme/$id'
+      preLoaderRoute: typeof FilmeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/serie/$id': {
+      id: '/serie/$id'
+      path: '/serie/$id'
+      fullPath: '/serie/$id'
+      preLoaderRoute: typeof SerieIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programacao': {
       id: '/programacao'
       path: '/programacao'
       fullPath: '/programacao'
