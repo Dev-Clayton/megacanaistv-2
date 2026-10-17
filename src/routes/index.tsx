@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { Play, Radio, Film, Clapperboard } from "lucide-react";
+import { Play, Radio } from "lucide-react";
 import { channelsQuery, eventsQuery } from "@/lib/api";
 import { Carousel, carouselItem, ChannelCard, ErrorState, EventCard, SafeImg } from "@/components/mc/ui";
 import { eventStatus } from "@/lib/time";
@@ -62,20 +62,6 @@ function Home() {
         </Carousel>
       )}
 
-      <section className="grid gap-4 px-4 sm:grid-cols-2 md:px-10">
-        <Link to="/filmes" className="group relative overflow-hidden rounded-2xl border bg-gradient-to-br from-primary/20 via-card to-card p-6 transition hover:border-primary/60">
-          <Film className="mb-5 size-8 text-primary" />
-          <h2 className="text-2xl font-extrabold">Filmes</h2>
-          <p className="mt-2 max-w-sm text-sm text-muted-foreground">Explore títulos, veja informações do TMDB e abra o player integrado.</p>
-          <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary">Explorar filmes <Play className="size-4" /></span>
-        </Link>
-        <Link to="/series" className="group relative overflow-hidden rounded-2xl border bg-gradient-to-br from-primary/15 via-card to-card p-6 transition hover:border-primary/60">
-          <Clapperboard className="mb-5 size-8 text-primary" />
-          <h2 className="text-2xl font-extrabold">Séries, animes e doramas</h2>
-          <p className="mt-2 max-w-sm text-sm text-muted-foreground">Navegue pelo catálogo e escolha temporadas e episódios disponíveis.</p>
-          <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary">Explorar séries <Play className="size-4" /></span>
-        </Link>
-      </section>
 
       <Carousel title="Canais em destaque">
         {featured.map((c) => <ChannelCard key={c.id} channel={c} className={carouselItem} />)}
