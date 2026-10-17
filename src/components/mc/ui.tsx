@@ -6,11 +6,11 @@ import type { Channel, SportEvent } from "@/lib/types";
 import { eventStatus, formatDay, formatTime, type EventStatus } from "@/lib/time";
 import { cn } from "@/lib/utils";
 
-export function SafeImg({ src, alt, className, fallback }: { src?: string | undefined; alt: string; className?: string | undefined; fallback?: ReactNode }) {
+export function SafeImg({ src, alt, className, fallback, loading = "lazy", fetchPriority }: { src?: string | undefined; alt: string; className?: string | undefined; fallback?: ReactNode; loading?: "eager" | "lazy"; fetchPriority?: "high" | "low" | "auto" }) {
   const [failed, setFailed] = useState(false);
   if (!src || failed)
     return <>{fallback ?? <div className={cn("flex items-center justify-center bg-surface text-muted-foreground", className)}><Tv className="size-1/3 max-w-10" /></div>}</>;
-  return <img src={src} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} className={className} />;
+  return <img src={src} alt={alt} loading={loading} fetchPriority={fetchPriority} decoding="async" onError={() => setFailed(true)} className={className} />;
 }
 
 export function ChannelCard({ channel, className }: { channel: Channel; className?: string }) {
