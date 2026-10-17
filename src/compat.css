@@ -103,3 +103,9 @@ main:focus { outline: none; }
 .mc-carousel-control { min-height: 44px; }
 button, a, select, input, textarea { -webkit-tap-highlight-color: transparent; }
 .backdrop-blur-xl { -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+
+
+/* //CM - Ocultar badge da Lovable */
+#lovable-badge {
+  display: none !important;
+}
