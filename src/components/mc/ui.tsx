@@ -27,7 +27,7 @@ export function ChannelCard({ channel, className }: { channel: Channel; classNam
         <SafeImg
           src={channel.preview ?? channel.image}
           alt={channel.name}
-          className={cn("size-full transition duration-500 group-hover:scale-105", channel.preview ? "object-cover" : "object-contain p-6")}
+          className={cn("size-full transition duration-300 group-hover:scale-[1.03]", channel.preview ? "object-cover" : "object-contain p-5 sm:p-6")}
           fallback={<SafeImg src={channel.image} alt={channel.name} className="size-full object-contain p-6" />}
         />
         {channel.preview && channel.image && (
@@ -36,7 +36,7 @@ export function ChannelCard({ channel, className }: { channel: Channel; classNam
           </div>
         )}
       </div>
-      <div className="truncate px-3 py-2.5 text-sm font-semibold">{channel.name}</div>
+      <div className="flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm font-semibold leading-snug"><Tv className="size-4 shrink-0 text-primary" aria-hidden="true" /><span className="line-clamp-2 min-w-0">{channel.name}</span></div>
     </Link>
   );
 }
@@ -117,7 +117,7 @@ export function EventCard({ event, now, className }: { event: SportEvent; now: n
     <Link
       to="/esportes/$slug"
       params={{ slug: event.slug }}
-      className={cn("block rounded-xl border bg-card p-4 shadow-card transition hover:-translate-y-0.5 hover:shadow-glow focus:shadow-glow focus:ring-2 focus:ring-ring outline-none", className)}
+      className={cn("block rounded-xl border bg-card p-4 shadow-card outline-none transition duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-glow focus-visible:ring-2 focus-visible:ring-ring", className)}
     >
       <div className="mb-3 flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
