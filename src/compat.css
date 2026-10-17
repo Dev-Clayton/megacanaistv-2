@@ -103,3 +103,8 @@ main:focus { outline: none; }
 .mc-carousel-control { min-height: 44px; }
 button, a, select, input, textarea { -webkit-tap-highlight-color: transparent; }
 .backdrop-blur-xl { -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+
+/* Remove o badge visual da Lovable, quando presente no DOM da aplicação. */
+#lovable-badge {
+  display: none !important;
+}
