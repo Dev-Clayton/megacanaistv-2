@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, ChevronLeft, ChevronRight, Inbox, RotateCw, Tv } from "lucide-react";
 import { useRef } from "react";
@@ -50,7 +50,7 @@ export function Carousel({ title, to, children }: { title: string; to?: ReactNod
     if (typeof el.scrollBy === "function") el.scrollBy({ left: distance, behavior: "smooth" });
     else el.scrollLeft += distance;
   };
-  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const onKeyDown = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
     const target = e.target as HTMLElement;
     if (target.matches("input, textarea, select")) return;
