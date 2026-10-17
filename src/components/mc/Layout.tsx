@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { CalendarDays, Search, Trophy, TvMinimal } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Início" },
-  { to: "/canais", label: "Canais" },
-  { to: "/esportes", label: "Esportes" },
-  { to: "/programacao", label: "Programação" },
+  { to: "/", label: "Início", icon: TvMinimal },
+  { to: "/canais", label: "Canais", icon: TvMinimal },
+  { to: "/esportes", label: "Esportes", icon: Trophy },
+  { to: "/programacao", label: "Programação", icon: CalendarDays },
 ] as const;
 
 export function Logo() {
   return (
-    <Link to="/" className="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight" aria-label="Mega Canais TV — início">
-      <span className="grid size-8 place-items-center rounded-lg bg-brand text-sm text-primary-foreground">M</span>
+    <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-lg font-extrabold tracking-tight" aria-label="Mega Canais TV — início">
+      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand text-primary-foreground shadow-card"><TvMinimal className="size-5" strokeWidth={2.4} /></span>
       <span>Mega<span className="text-brand">Canais</span><span className="ml-1 text-xs font-bold text-muted-foreground">TV</span></span>
     </Link>
   );
@@ -27,26 +27,26 @@ export function Header() {
         <Logo />
         <nav className="hidden min-w-0 items-center gap-1 lg:flex" aria-label="Principal">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="rounded-full px-3 py-1.5 text-sm font-semibold text-muted-foreground transition hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground" }}>
+            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" activeProps={{ className: "bg-secondary text-foreground" }}>
               {n.label}
             </Link>
           ))}
         </nav>
         <form
           role="search"
-          className="ml-auto flex min-w-0 w-32 shrink rounded-full border bg-card px-2 sm:w-52 sm:px-3 lg:w-56 xl:w-64 focus-within:ring-2 focus-within:ring-ring"
+          className="ml-auto flex h-10 min-w-0 w-32 shrink items-center gap-2 rounded-full border bg-card px-3 transition-colors focus-within:border-primary/60 focus-within:ring-2 focus-within:ring-ring sm:w-52 lg:w-56 xl:w-64"
           onSubmit={(e) => {
             e.preventDefault();
             if (q.trim()) navigate({ to: "/busca", search: { q: q.trim() } });
           }}
         >
-          <Search className="size-4 shrink-0 text-muted-foreground" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar canais" aria-label="Buscar" className="h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+          <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar canais" aria-label="Buscar" className="h-full w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
         </form>
       </div>
       <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 pb-2 lg:hidden" aria-label="Principal móvel">
         {nav.map((n) => (
-          <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground" activeProps={{ className: "bg-secondary text-foreground" }}>
+          <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" activeProps={{ className: "bg-secondary text-foreground" }}>
             {n.label}
           </Link>
         ))}
