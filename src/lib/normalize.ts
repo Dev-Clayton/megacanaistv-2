@@ -7,15 +7,22 @@ export function normalizeChannels(raw: unknown): ChannelsData {
   if (!isObj(raw)) throw new Error("Resposta inválida da API de canais");
   const categories: Category[] = [];
   const seenCat = new Set<number>();
+  const hiddenCategoryIds = new Set<number>();
+  const isHiddenCategory = (name: string) => /filmes?|s[eé]ries?/i.test(name);
   for (const c of Array.isArray(raw.categories) ? raw.categories : []) {
     if (!isObj(c)) continue;
     const id = Number(c.id);
     const name = str(c.name);
     if (!Number.isFinite(id) || !name || seenCat.has(id)) continue;
     seenCat.add(id);
+    // Não exibir categorias de filmes/séries no catálogo de canais ao vivo.
+    if (isHiddenCategory(name)) {
+      hiddenCategoryIds.add(id);
+      continue;
+    }
     categories.push({ id, name });
   }
-  if (!seenCat.has(0)) categories.unshift({ id: 0, name: "Todos" });
+  if (!seenCat.has(0) && !categories.some((c) => c.id === 0)) categories.unshift({ id: 0, name: "Todos" });
 
   const channels: Channel[] = [];
   const seen = new Set<string>();
@@ -26,7 +33,7 @@ export function normalizeChannels(raw: unknown): ChannelsData {
     if (!id || !name || seen.has(id)) continue;
     seen.add(id);
     const cats = Array.isArray(c.categories)
-      ? [...new Set((c.categories as unknown[]).map(Number).filter(Number.isFinite))]
+      ? [...new Set((c.categories as unknown[]).map(Number).filter((categoryId) => Number.isFinite(categoryId) && !hiddenCategoryIds.has(categoryId)))]
       : [];
     channels.push({
       id,
