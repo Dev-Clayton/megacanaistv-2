@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -11,6 +12,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import compatCss from "../compat.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header, Footer } from "@/components/mc/Layout";
 
@@ -89,6 +91,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "stylesheet",
+        href: compatCss,
+      },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -117,6 +123,31 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  // TVs/controle remoto: leva o foco ao conteúdo ao trocar de página
+  useEffect(() => {
+    const main = document.querySelector("main");
+    if (!main) return;
+    main.setAttribute("tabindex", "-1");
+    try {
+      main.focus();
+    } catch {
+      /* foco não suportado */
+    }
+  }, [pathname]);
+
+  // Botão "Voltar" do controle remoto / tecla Escape: volta uma página
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (document.fullscreenElement) return;
+      if (document.querySelector(".fixed.z-50")) return; // player ampliado aberto
+      if (window.history.length > 1) window.history.back();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

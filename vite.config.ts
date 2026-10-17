@@ -7,6 +7,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Alvo de build mais compatível (Smart TVs e navegadores antigos).
+  // chrome69 cobre TVs Tizen/webOS recentes sem perder recursos usados no código.
+  vite: { build: { target: "chrome69" } },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
