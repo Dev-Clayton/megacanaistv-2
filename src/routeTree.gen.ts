@@ -94,6 +94,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/busca': typeof BuscaRoute
   '/canais': typeof CanaisRoute
+  '/filmes': typeof FilmesRoute
+  '/series': typeof SeriesRoute
+  '/filme/$id': typeof FilmeIdRoute
+  '/serie/$id': typeof SerieIdRoute
   '/programacao': typeof ProgramacaoRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
@@ -104,6 +108,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/busca': typeof BuscaRoute
   '/canais': typeof CanaisRoute
+  '/filmes': typeof FilmesRoute
+  '/series': typeof SeriesRoute
+  '/filme/$id': typeof FilmeIdRoute
+  '/serie/$id': typeof SerieIdRoute
   '/programacao': typeof ProgramacaoRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
@@ -119,14 +127,6 @@ export interface FileRouteTypes {
     | '/series'
     | '/filme/$id'
     | '/serie/$id'
-    | '/filmes'
-    | '/series'
-    | '/filme/$id'
-    | '/serie/$id'
-    | '/filmes'
-    | '/series'
-    | '/filme/$id'
-    | '/serie/$id'
     | '/programacao'
     | '/canal/$id'
     | '/esportes/$slug'
@@ -136,6 +136,10 @@ export interface FileRouteTypes {
     | '/'
     | '/busca'
     | '/canais'
+    | '/filmes'
+    | '/series'
+    | '/filme/$id'
+    | '/serie/$id'
     | '/programacao'
     | '/canal/$id'
     | '/esportes/$slug'
@@ -145,11 +149,14 @@ export interface FileRouteTypes {
     | '/'
     | '/busca'
     | '/canais'
+    | '/filmes'
+    | '/series'
+    | '/filme/$id'
+    | '/serie/$id'
     | '/programacao'
     | '/canal/$id'
     | '/esportes/$slug'
     | '/esportes/'
-  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
