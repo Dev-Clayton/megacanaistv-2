@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Loader2, Maximize, Minimize, RotateCw, TvMinimal, Unlock } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize, Minimize, RotateCw, TvMinimal, Unlock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = { src?: string | undefined; title: string; onPrev?: () => void; onNext?: () => void };
@@ -9,25 +9,9 @@ const btn = "inline-flex min-h-10 items-center gap-2 rounded-lg bg-secondary px-
 export function Player({ src, title, onPrev, onNext }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const [nonce, setNonce] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [slow, setSlow] = useState(false);
   const [fs, setFs] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
-
-  useEffect(() => setUnlocked(false), [src]);
-
-  const unlock = () => {
-    if (src) window.open(src, "_blank", "noopener,noreferrer");
-    setUnlocked(true);
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    setSlow(false);
-    const t = setTimeout(() => setSlow(true), 15000);
-    return () => clearTimeout(t);
-  }, [src, nonce]);
 
   useEffect(() => {
     const onChange = () => setFs(document.fullscreenElement === wrap.current);
