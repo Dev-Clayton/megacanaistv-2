@@ -23,9 +23,9 @@ export function Header() {
   const [q, setQ] = useState("");
   return (
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur-xl">
-      <div className="flex h-16 items-center gap-4 px-4 md:px-10">
+      <div className="flex h-16 min-w-0 items-center gap-2 px-3 sm:gap-3 sm:px-4 md:gap-4 md:px-6 xl:px-10">
         <Logo />
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Principal">
+        <nav className="hidden min-w-0 items-center gap-1 lg:flex" aria-label="Principal">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="rounded-full px-3 py-1.5 text-sm font-semibold text-muted-foreground transition hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground" }}>
               {n.label}
@@ -34,7 +34,7 @@ export function Header() {
         </nav>
         <form
           role="search"
-          className="ml-auto flex w-40 items-center gap-2 rounded-full border bg-card px-3 focus-within:ring-2 focus-within:ring-ring sm:w-64"
+          className="ml-auto flex min-w-0 w-32 shrink rounded-full border bg-card px-2 sm:w-52 sm:px-3 lg:w-56 xl:w-64 focus-within:ring-2 focus-within:ring-ring"
           onSubmit={(e) => {
             e.preventDefault();
             if (q.trim()) navigate({ to: "/busca", search: { q: q.trim() } });
@@ -44,7 +44,7 @@ export function Header() {
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar canais" aria-label="Buscar" className="h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
         </form>
       </div>
-      <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 pb-2 md:hidden" aria-label="Principal móvel">
+      <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 pb-2 lg:hidden" aria-label="Principal móvel">
         {nav.map((n) => (
           <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground" activeProps={{ className: "bg-secondary text-foreground" }}>
             {n.label}
