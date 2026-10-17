@@ -56,7 +56,7 @@ async function enrichWithTmdb(item: CatalogItem): Promise<CatalogItem> {
   }
 }
 
-async function readSeriesList(kind: Exclude<CatalogKind, "movie">): Promise<CatalogItem[]> {
+async function readSeriesList(kind: Exclude<CatalogKind, "movie">, enrich = true): Promise<CatalogItem[]> {
   const endpoint = kind === "tv" ? "list-tv-ids.txt" : kind === "anime" ? "list-anime-ids.txt" : "list-dorama-ids.txt";
   const raw = await getJson(`${API}/${endpoint}`);
   const rows = Array.isArray(raw) ? raw : object(raw) && Array.isArray(raw.items) ? raw.items : [];
@@ -87,8 +87,8 @@ async function readSeriesList(kind: Exclude<CatalogKind, "movie">): Promise<Cata
       seasons,
     });
   }
-  const selected = items.slice(0, 72);
-  if (!tmdbKey()) return selected;
+  const selected = items.slice(0, 48);
+  if (!enrich || !tmdbKey()) return selected;
   const enriched: CatalogItem[] = [];
   for (let i = 0; i < selected.length; i += 6) enriched.push(...await Promise.all(selected.slice(i, i + 6).map(enrichWithTmdb)));
   return enriched;
@@ -96,7 +96,7 @@ async function readSeriesList(kind: Exclude<CatalogKind, "movie">): Promise<Cata
 
 async function readMovies(): Promise<CatalogItem[]> {
   const text = await getText(`${API}/list-movie-ids.txt`);
-  const ids = [...new Set(text.split(/\s+/).map((v) => v.trim()).filter((v) => /^\d+$/.test(v)))].slice(0, 72);
+  const ids = [...new Set(text.split(/\s+/).map((v) => v.trim()).filter((v) => /^\d+$/.test(v)))].slice(0, 48);
   const items: CatalogItem[] = ids.map((id) => ({ id, title: `Filme ${id}`, kind: "movie" }));
   if (!tmdbKey()) return items;
   const enriched: CatalogItem[] = [];
@@ -118,7 +118,7 @@ export const fetchMovieDetails = createServerFn({ method: "GET" }).inputValidato
 export const fetchSeriesDetails = createServerFn({ method: "GET" }).inputValidator((input: { id: string; kind?: "tv" | "anime" | "dorama" }) => input).handler(async ({ data }) => {
   if (!/^\d+$/.test(data.id)) throw new Error("ID TMDB inválido");
   const kind = data.kind ?? "tv";
-  const lists = await readSeriesList(kind);
+  const lists = await readSeriesList(kind, false);
   const item = lists.find((entry) => entry.id === data.id) ?? { id: data.id, title: `Série ${data.id}`, kind, seasons: {} };
   const enriched = await enrichWithTmdb(item);
   return { ...enriched, playerUrl: `${API}/serie/${data.id}/1/1` } satisfies CatalogDetails;
