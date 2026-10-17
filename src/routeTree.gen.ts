@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuscaRouteImport } from './routes/busca'
 import { Route as CanaisRouteImport } from './routes/canais'
+import { Route as FilmesRouteImport } from './routes/filmes'
+import { Route as SeriesRouteImport } from './routes/series'
+import { Route as FilmeIdRouteImport } from './routes/filme.$id'
+import { Route as SerieIdRouteImport } from './routes/serie.$id'
 import { Route as ProgramacaoRouteImport } from './routes/programacao'
 import { Route as CanalIdRouteImport } from './routes/canal.$id'
 import { Route as EsportesIndexRouteImport } from './routes/esportes.index'
@@ -32,7 +36,7 @@ const CanaisRoute = CanaisRouteImport.update({
   path: '/canais',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProgramacaoRoute = ProgramacaoRouteImport.update({
+const FilmesRoute = FilmesRouteImport.update({\n  id: '/filmes',\n  path: '/filmes',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst SeriesRoute = SeriesRouteImport.update({\n  id: '/series',\n  path: '/series',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst FilmeIdRoute = FilmeIdRouteImport.update({\n  id: '/filme/$id',\n  path: '/filme/$id',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst SerieIdRoute = SerieIdRouteImport.update({\n  id: '/serie/$id',\n  path: '/serie/$id',\n  getParentRoute: () => rootRouteImport,\n} as any)\nconst ProgramacaoRoute = ProgramacaoRouteImport.update({
   id: '/programacao',
   path: '/programacao',
   getParentRoute: () => rootRouteImport,
@@ -57,6 +61,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/busca': typeof BuscaRoute
   '/canais': typeof CanaisRoute
+  '/filmes': typeof FilmesRoute
+  '/series': typeof SeriesRoute
+  '/filme/$id': typeof FilmeIdRoute
+  '/serie/$id': typeof SerieIdRoute
   '/programacao': typeof ProgramacaoRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
@@ -87,6 +95,18 @@ export interface FileRouteTypes {
     | '/'
     | '/busca'
     | '/canais'
+    | '/filmes'
+    | '/series'
+    | '/filme/$id'
+    | '/serie/$id'
+    | '/filmes'
+    | '/series'
+    | '/filme/$id'
+    | '/serie/$id'
+    | '/filmes'
+    | '/series'
+    | '/filme/$id'
+    | '/serie/$id'
     | '/programacao'
     | '/canal/$id'
     | '/esportes/$slug'
@@ -115,6 +135,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BuscaRoute: typeof BuscaRoute
   CanaisRoute: typeof CanaisRoute
+  FilmesRoute: typeof FilmesRoute
+  SeriesRoute: typeof SeriesRoute
+  FilmeIdRoute: typeof FilmeIdRoute
+  SerieIdRoute: typeof SerieIdRoute
   ProgramacaoRoute: typeof ProgramacaoRoute
   CanalIdRoute: typeof CanalIdRoute
   EsportesSlugRoute: typeof EsportesSlugRoute
@@ -144,7 +168,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CanaisRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/programacao': {
+    '/filmes': {\n      id: '/filmes'\n      path: '/filmes'\n      fullPath: '/filmes'\n      preLoaderRoute: typeof FilmesRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/series': {\n      id: '/series'\n      path: '/series'\n      fullPath: '/series'\n      preLoaderRoute: typeof SeriesRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/filme/$id': {\n      id: '/filme/$id'\n      path: '/filme/$id'\n      fullPath: '/filme/$id'\n      preLoaderRoute: typeof FilmeIdRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/serie/$id': {\n      id: '/serie/$id'\n      path: '/serie/$id'\n      fullPath: '/serie/$id'\n      preLoaderRoute: typeof SerieIdRouteImport\n      parentRoute: typeof rootRouteImport\n    }\n    '/programacao': {
       id: '/programacao'
       path: '/programacao'
       fullPath: '/programacao'
@@ -179,6 +203,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BuscaRoute: BuscaRoute,
   CanaisRoute: CanaisRoute,
+  FilmesRoute: FilmesRoute,
+  SeriesRoute: SeriesRoute,
+  FilmeIdRoute: FilmeIdRoute,
+  SerieIdRoute: SerieIdRoute,
   ProgramacaoRoute: ProgramacaoRoute,
   CanalIdRoute: CanalIdRoute,
   EsportesSlugRoute: EsportesSlugRoute,
