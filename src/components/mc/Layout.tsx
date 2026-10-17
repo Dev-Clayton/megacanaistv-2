@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { CalendarDays, Search, Trophy, TvMinimal } from "lucide-react";
+import { CalendarDays, House, Search, Trophy, TvMinimal } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Início", icon: TvMinimal },
+  { to: "/", label: "Início", icon: House },
   { to: "/canais", label: "Canais", icon: TvMinimal },
   { to: "/esportes", label: "Esportes", icon: Trophy },
   { to: "/programacao", label: "Programação", icon: CalendarDays },
@@ -28,6 +28,7 @@ export function Header() {
         <nav className="hidden min-w-0 items-center gap-1 lg:flex" aria-label="Principal">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" activeProps={{ className: "bg-secondary text-foreground" }}>
+              <n.icon className="size-4" aria-hidden="true" />
               {n.label}
             </Link>
           ))}
@@ -47,6 +48,7 @@ export function Header() {
       <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 pb-2 lg:hidden" aria-label="Principal móvel">
         {nav.map((n) => (
           <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" activeProps={{ className: "bg-secondary text-foreground" }}>
+            <n.icon className="size-4" aria-hidden="true" />
             {n.label}
           </Link>
         ))}
