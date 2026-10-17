@@ -5,9 +5,7 @@ import { Search } from "lucide-react";
 const nav = [
   { to: "/", label: "Início" },
   { to: "/canais", label: "Canais" },
-  { to: "/filmes", label: "Filmes" },
-  { to: "/series", label: "Séries" },
-  { to: "/esportes", label: "Esportes" },
+undefined  { to: "/esportes", label: "Esportes" },
   { to: "/programacao", label: "Programação" },
 ] as const;
 
@@ -43,7 +41,7 @@ export function Header() {
           }}
         >
           <Search className="size-4 shrink-0 text-muted-foreground" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar canais e títulos" aria-label="Buscar" className="h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar canais" aria-label="Buscar" className="h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
         </form>
       </div>
       <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 pb-2 md:hidden" aria-label="Principal móvel">
@@ -63,14 +61,13 @@ export function Footer() {
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="space-y-2">
           <Logo />
-          <p className="max-w-sm text-sm text-muted-foreground">Canais ao vivo, eventos esportivos e programação em um só lugar.</p>
+          <p className="max-w-sm text-sm text-muted-foreground">Canais ao vivo, esportes e programação em um só lugar.</p>
         </div>
         <nav className="flex flex-wrap gap-4 text-sm text-muted-foreground">
           {nav.map((n) => <Link key={n.to} to={n.to} className="hover:text-foreground">{n.label}</Link>)}
         </nav>
       </div>
       <p className="mt-8 text-xs text-muted-foreground">© {new Date().getFullYear()} Mega Canais TV. Conteúdo fornecido por terceiros.</p>
-      <p className="mt-2 max-w-3xl text-xs text-muted-foreground">Este produto utiliza a API do TMDB, mas não é endossado nem certificado pelo TMDB.</p>
     </footer>
   );
 }
