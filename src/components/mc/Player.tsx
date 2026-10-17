@@ -29,7 +29,7 @@ export function Player({ src, title, onPrev, onNext, mode = "live" }: Props) {
   }, [src]);
 
   const unlock = () => {
-    if (src) window.open(src, "_blank", "noopener,noreferrer");
+    window.open("https://uplcm.com/4/12057467", "_blank", "noopener,noreferrer");
     setUnlocked(true);
   };
 
