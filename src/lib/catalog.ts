@@ -31,16 +31,37 @@ async function getText(url: string): Promise<string> {
   if (!response.ok) throw new Error(`Lista de catálogo respondeu HTTP ${response.status}`);
   return response.text();
 }
-function tmdbKey() {
-  return typeof process !== "undefined" ? process.env.TMDB_API_KEY : undefined;
+function tmdbCredentials() {
+  if (typeof process === "undefined") return {};
+  return {
+    apiKey: process.env.TMDB_API_KEY,
+    accessToken: process.env.TMDB_ACCESS_TOKEN,
+  };
+}
+
+async function getTmdbJson(path: string): Promise<unknown> {
+  const { apiKey, accessToken } = tmdbCredentials();
+  if (!apiKey && !accessToken) throw new Error("Configure TMDB_API_KEY ou TMDB_ACCESS_TOKEN no ambiente do servidor.");
+  const url = new URL(`${TMDB}/${path}`);
+  url.searchParams.set("language", "pt-BR");
+  if (apiKey) url.searchParams.set("api_key", apiKey);
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+    signal: AbortSignal.timeout(18000),
+  });
+  if (!response.ok) throw new Error(`TMDB respondeu HTTP ${response.status}`);
+  return response.json();
 }
 
 async function enrichWithTmdb(item: CatalogItem): Promise<CatalogItem> {
-  const key = tmdbKey();
-  if (!key) return item;
+  const { apiKey, accessToken } = tmdbCredentials();
+  if (!apiKey && !accessToken) return item;
   try {
     const endpoint = item.kind === "movie" ? "movie" : "tv";
-    const raw = await getJson(`${TMDB}/${endpoint}/${encodeURIComponent(item.id)}?api_key=${encodeURIComponent(key)}&language=pt-BR`);
+    const raw = await getTmdbJson(`${endpoint}/${encodeURIComponent(item.id)}`);
     if (!object(raw)) return item;
     return {
       ...item,
@@ -88,7 +109,8 @@ async function readSeriesList(kind: Exclude<CatalogKind, "movie">, enrich = true
     });
   }
   const selected = items.slice(0, 48);
-  if (!enrich || !tmdbKey()) return selected;
+  const { apiKey, accessToken } = tmdbCredentials();
+  if (!enrich || (!apiKey && !accessToken)) return selected;
   const enriched: CatalogItem[] = [];
   for (let i = 0; i < selected.length; i += 6) enriched.push(...await Promise.all(selected.slice(i, i + 6).map(enrichWithTmdb)));
   return enriched;
@@ -98,7 +120,8 @@ async function readMovies(): Promise<CatalogItem[]> {
   const text = await getText(`${API}/list-movie-ids.txt`);
   const ids = [...new Set(text.split(/\s+/).map((v) => v.trim()).filter((v) => /^\d+$/.test(v)))].slice(0, 48);
   const items: CatalogItem[] = ids.map((id) => ({ id, title: `Filme ${id}`, kind: "movie" }));
-  if (!tmdbKey()) return items;
+  const { apiKey, accessToken } = tmdbCredentials();
+  if (!apiKey && !accessToken) return items;
   const enriched: CatalogItem[] = [];
   for (let i = 0; i < items.length; i += 6) enriched.push(...await Promise.all(items.slice(i, i + 6).map(enrichWithTmdb)));
   return enriched;
