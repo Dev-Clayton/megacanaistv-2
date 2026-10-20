@@ -15,6 +15,7 @@ import { Route as CanaisRouteImport } from './routes/canais'
 import { Route as FilmesRouteImport } from './routes/filmes'
 import { Route as ProgramacaoRouteImport } from './routes/programacao'
 import { Route as SeriesRouteImport } from './routes/series'
+import { Route as ApiRecommendationsRouteImport } from './routes/api/recommendations'
 import { Route as CanalIdRouteImport } from './routes/canal.$id'
 import { Route as EsportesIndexRouteImport } from './routes/esportes.index'
 import { Route as EsportesSlugRouteImport } from './routes/esportes.$slug'
@@ -51,6 +52,11 @@ const SeriesRoute = SeriesRouteImport.update({
   path: '/series',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiRecommendationsRoute = ApiRecommendationsRouteImport.update({
+  id: '/api/recommendations',
+  path: '/api/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CanalIdRoute = CanalIdRouteImport.update({
   id: '/canal/$id',
   path: '/canal/$id',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/filmes': typeof FilmesRoute
   '/programacao': typeof ProgramacaoRoute
   '/series': typeof SeriesRoute
+  '/api/recommendations': typeof ApiRecommendationsRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
   '/filme/$id': typeof FilmeIdRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/filmes': typeof FilmesRoute
   '/programacao': typeof ProgramacaoRoute
   '/series': typeof SeriesRoute
+  '/api/recommendations': typeof ApiRecommendationsRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
   '/filme/$id': typeof FilmeIdRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/filmes': typeof FilmesRoute
   '/programacao': typeof ProgramacaoRoute
   '/series': typeof SeriesRoute
+  '/api/recommendations': typeof ApiRecommendationsRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
   '/filme/$id': typeof FilmeIdRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/filmes'
     | '/programacao'
     | '/series'
+    | '/api/recommendations'
     | '/canal/$id'
     | '/esportes/$slug'
     | '/filme/$id'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/filmes'
     | '/programacao'
     | '/series'
+    | '/api/recommendations'
     | '/canal/$id'
     | '/esportes/$slug'
     | '/filme/$id'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/filmes'
     | '/programacao'
     | '/series'
+    | '/api/recommendations'
     | '/canal/$id'
     | '/esportes/$slug'
     | '/filme/$id'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   FilmesRoute: typeof FilmesRoute
   ProgramacaoRoute: typeof ProgramacaoRoute
   SeriesRoute: typeof SeriesRoute
+  ApiRecommendationsRoute: typeof ApiRecommendationsRoute
   CanalIdRoute: typeof CanalIdRoute
   EsportesSlugRoute: typeof EsportesSlugRoute
   FilmeIdRoute: typeof FilmeIdRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SeriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/recommendations': {
+      id: '/api/recommendations'
+      path: '/api/recommendations'
+      fullPath: '/api/recommendations'
+      preLoaderRoute: typeof ApiRecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/canal/$id': {
       id: '/canal/$id'
       path: '/canal/$id'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   FilmesRoute: FilmesRoute,
   ProgramacaoRoute: ProgramacaoRoute,
   SeriesRoute: SeriesRoute,
+  ApiRecommendationsRoute: ApiRecommendationsRoute,
   CanalIdRoute: CanalIdRoute,
   EsportesSlugRoute: EsportesSlugRoute,
   FilmeIdRoute: FilmeIdRoute,
