@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, CircleStop, LoaderCircle, WandRound, Play } from "lucide-react";
+import { ArrowRight, CircleStop, LoaderCircle, WandSparkles, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SafeImg } from "./ui";
 import { formatDay, formatTime } from "@/lib/time";
@@ -44,7 +44,7 @@ export function Recommendations() {
 
   return <section id="para-voce" aria-labelledby="recommendations-title" className="scroll-mt-32 border-y bg-secondary/20 px-4 py-8 md:px-10">
     <div className="max-w-3xl space-y-4">
-      <div className="flex items-center gap-3"><WandRound className="size-6 shrink-0 text-primary" /><h2 id="recommendations-title" className="text-2xl font-extrabold">O que você quer assistir?</h2><span className="text-xs font-bold text-primary">IA</span></div>
+      <div className="flex items-center gap-3"><WandSparkles className="size-6 shrink-0 text-primary" /><h2 id="recommendations-title" className="text-2xl font-extrabold">O que você quer assistir?</h2><span className="text-xs font-bold text-primary">IA</span></div>
       <form onSubmit={(e) => { e.preventDefault(); if (!busy) void recommend(); }} className="space-y-3">
         <label htmlFor="watch-description" className="sr-only">Descreva o que quer assistir</label>
         <textarea id="watch-description" value={description} onChange={(e) => setDescription(e.target.value)} maxLength={1000} minLength={3} required rows={2} placeholder="Quero um filme de ação, notícias ou algo para assistir com a família…" className="w-full resize-y rounded-lg border border-input bg-card p-4 text-base outline-none focus:ring-2 focus:ring-ring" />

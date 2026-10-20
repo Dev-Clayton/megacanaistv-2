@@ -14,6 +14,8 @@ export const Route = createFileRoute("/programacao")({
       { name: "description", content: "Veja o que está passando agora e os próximos programas de cada canal." },
       { property: "og:title", content: "Programação — Mega Canais TV" },
       { property: "og:description", content: "O que está passando agora em cada canal." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(channelsQuery),

@@ -13,6 +13,8 @@ export const Route = createFileRoute("/esportes/")({
       { name: "description", content: "Agenda de jogos e eventos esportivos ao vivo, próximos e encerrados." },
       { property: "og:title", content: "Esportes ao vivo — Mega Canais TV" },
       { property: "og:description", content: "Confira os jogos ao vivo e a agenda de hoje." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Sports,

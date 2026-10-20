@@ -13,6 +13,8 @@ export const Route = createFileRoute("/busca")({
       { name: "description", content: "Encontre canais e eventos esportivos na Mega Canais TV." },
       { property: "og:title", content: "Buscar — Mega Canais TV" },
       { property: "og:description", content: "Busque canais e jogos." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

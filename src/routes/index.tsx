@@ -14,6 +14,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Assista canais ao vivo por categoria, acompanhe jogos e veja a programação na Mega Canais TV." },
       { property: "og:title", content: "Mega Canais TV" },
       { property: "og:description", content: "Canais ao vivo, esportes e programação em um só lugar." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(channelsQuery),

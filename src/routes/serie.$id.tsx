@@ -14,7 +14,7 @@ export const Route = createFileRoute("/serie/$id")({
     const kind = new URLSearchParams(location.search).get("kind");
     return context.queryClient.ensureQueryData(seriesQuery(params.id, kind === "anime" || kind === "dorama" ? kind : "tv"));
   },
-  head: ({ loaderData }) => ({ meta: [{ title: `${loaderData?.title ?? "Série"} — Mega Canais TV` }, { name: "description", content: loaderData?.overview ?? "Veja temporadas e episódios no Mega Canais TV." }] }),
+  head: ({ loaderData }) => ({ meta: [{ title: `${loaderData?.title ?? "Série"} — Mega Canais TV` }, { name: "description", content: loaderData?.overview ?? "Veja temporadas e episódios no Mega Canais TV." }, { property: "og:title", content: `${loaderData?.title ?? "Série"} — Mega Canais TV` }, { property: "og:description", content: loaderData?.overview ?? "Veja temporadas e episódios no Mega Canais TV." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   errorComponent: ({ reset }) => <ErrorState onRetry={reset} />,
   component: SeriesPage,
 });

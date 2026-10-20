@@ -15,7 +15,7 @@ const schema = { parse: (input: unknown) => ({ kind: (input as { kind?: string }
 
 export const Route = createFileRoute("/series")({
   validateSearch: schema,
-  head: () => ({ meta: [{ title: "Séries, animes e doramas — Mega Canais TV" }, { name: "description", content: "Explore séries, animes e doramas pelo catálogo TMDB." }] }),
+  head: () => ({ meta: [{ title: "Séries, animes e doramas — Mega Canais TV" }, { name: "description", content: "Explore séries, animes e doramas pelo catálogo TMDB." }, { property: "og:title", content: "Séries, animes e doramas — Mega Canais TV" }, { property: "og:description", content: "Explore séries, animes e doramas pelo catálogo TMDB." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   loader: async ({ context, location }) => {
     const kind = new URLSearchParams(location.search).get("kind");
     if (kind === "anime") return context.queryClient.ensureQueryData(animeQuery);
