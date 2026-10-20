@@ -8,7 +8,7 @@ import { useNow } from "@/hooks/use-now";
 import { Recommendations } from "@/components/mc/Recommendations";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
+  head: ({ loaderData }) => ({
     meta: [
       { title: "Mega Canais TV — Canais ao vivo, esportes e programação" },
       { name: "description", content: "Assista canais ao vivo por categoria, acompanhe jogos e veja a programação na Mega Canais TV." },
@@ -16,6 +16,11 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Canais ao vivo, esportes e programação em um só lugar." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...(() => {
+        const hero = loaderData?.channels.find((c) => c.preview) ?? loaderData?.channels[0];
+        const image = hero?.preview ?? hero?.image;
+        return image?.startsWith("https://") ? [{ property: "og:image", content: image }, { name: "twitter:image", content: image }] : [];
+      })(),
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(channelsQuery),
