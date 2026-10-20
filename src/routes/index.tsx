@@ -18,7 +18,8 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       ...(() => {
-        const hero = loaderData?.channels.find((c) => c.preview) ?? loaderData?.channels[0];
+        const catalog: ChannelsData | undefined = loaderData;
+        const hero = catalog?.channels.find((c) => c.preview) ?? catalog?.channels[0];
         const image = hero?.preview ?? hero?.image;
         return image?.startsWith("https://") ? [{ property: "og:image", content: image }, { name: "twitter:image", content: image }] : [];
       })(),
