@@ -13,13 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuscaRouteImport } from './routes/busca'
 import { Route as CanaisRouteImport } from './routes/canais'
 import { Route as FilmesRouteImport } from './routes/filmes'
-import { Route as SeriesRouteImport } from './routes/series'
-import { Route as FilmeIdRouteImport } from './routes/filme.$id'
-import { Route as SerieIdRouteImport } from './routes/serie.$id'
 import { Route as ProgramacaoRouteImport } from './routes/programacao'
+import { Route as SeriesRouteImport } from './routes/series'
 import { Route as CanalIdRouteImport } from './routes/canal.$id'
 import { Route as EsportesIndexRouteImport } from './routes/esportes.index'
 import { Route as EsportesSlugRouteImport } from './routes/esportes.$slug'
+import { Route as FilmeIdRouteImport } from './routes/filme.$id'
+import { Route as SerieIdRouteImport } from './routes/serie.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,24 +41,14 @@ const FilmesRoute = FilmesRouteImport.update({
   path: '/filmes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SeriesRoute = SeriesRouteImport.update({
-  id: '/series',
-  path: '/series',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FilmeIdRoute = FilmeIdRouteImport.update({
-  id: '/filme/$id',
-  path: '/filme/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SerieIdRoute = SerieIdRouteImport.update({
-  id: '/serie/$id',
-  path: '/serie/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProgramacaoRoute = ProgramacaoRouteImport.update({
   id: '/programacao',
   path: '/programacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeriesRoute = SeriesRouteImport.update({
+  id: '/series',
+  path: '/series',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CanalIdRoute = CanalIdRouteImport.update({
@@ -76,18 +66,28 @@ const EsportesSlugRoute = EsportesSlugRouteImport.update({
   path: '/esportes/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FilmeIdRoute = FilmeIdRouteImport.update({
+  id: '/filme/$id',
+  path: '/filme/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SerieIdRoute = SerieIdRouteImport.update({
+  id: '/serie/$id',
+  path: '/serie/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/busca': typeof BuscaRoute
   '/canais': typeof CanaisRoute
   '/filmes': typeof FilmesRoute
-  '/series': typeof SeriesRoute
-  '/filme/$id': typeof FilmeIdRoute
-  '/serie/$id': typeof SerieIdRoute
   '/programacao': typeof ProgramacaoRoute
+  '/series': typeof SeriesRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
+  '/filme/$id': typeof FilmeIdRoute
+  '/serie/$id': typeof SerieIdRoute
   '/esportes/': typeof EsportesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -95,12 +95,12 @@ export interface FileRoutesByTo {
   '/busca': typeof BuscaRoute
   '/canais': typeof CanaisRoute
   '/filmes': typeof FilmesRoute
-  '/series': typeof SeriesRoute
-  '/filme/$id': typeof FilmeIdRoute
-  '/serie/$id': typeof SerieIdRoute
   '/programacao': typeof ProgramacaoRoute
+  '/series': typeof SeriesRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
+  '/filme/$id': typeof FilmeIdRoute
+  '/serie/$id': typeof SerieIdRoute
   '/esportes': typeof EsportesIndexRoute
 }
 export interface FileRoutesById {
@@ -109,12 +109,12 @@ export interface FileRoutesById {
   '/busca': typeof BuscaRoute
   '/canais': typeof CanaisRoute
   '/filmes': typeof FilmesRoute
-  '/series': typeof SeriesRoute
-  '/filme/$id': typeof FilmeIdRoute
-  '/serie/$id': typeof SerieIdRoute
   '/programacao': typeof ProgramacaoRoute
+  '/series': typeof SeriesRoute
   '/canal/$id': typeof CanalIdRoute
   '/esportes/$slug': typeof EsportesSlugRoute
+  '/filme/$id': typeof FilmeIdRoute
+  '/serie/$id': typeof SerieIdRoute
   '/esportes/': typeof EsportesIndexRoute
 }
 export interface FileRouteTypes {
@@ -124,12 +124,12 @@ export interface FileRouteTypes {
     | '/busca'
     | '/canais'
     | '/filmes'
-    | '/series'
-    | '/filme/$id'
-    | '/serie/$id'
     | '/programacao'
+    | '/series'
     | '/canal/$id'
     | '/esportes/$slug'
+    | '/filme/$id'
+    | '/serie/$id'
     | '/esportes/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -137,12 +137,12 @@ export interface FileRouteTypes {
     | '/busca'
     | '/canais'
     | '/filmes'
-    | '/series'
-    | '/filme/$id'
-    | '/serie/$id'
     | '/programacao'
+    | '/series'
     | '/canal/$id'
     | '/esportes/$slug'
+    | '/filme/$id'
+    | '/serie/$id'
     | '/esportes'
   id:
     | '__root__'
@@ -150,25 +150,26 @@ export interface FileRouteTypes {
     | '/busca'
     | '/canais'
     | '/filmes'
-    | '/series'
-    | '/filme/$id'
-    | '/serie/$id'
     | '/programacao'
+    | '/series'
     | '/canal/$id'
     | '/esportes/$slug'
+    | '/filme/$id'
+    | '/serie/$id'
     | '/esportes/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BuscaRoute: typeof BuscaRoute
   CanaisRoute: typeof CanaisRoute
   FilmesRoute: typeof FilmesRoute
-  SeriesRoute: typeof SeriesRoute
-  FilmeIdRoute: typeof FilmeIdRoute
-  SerieIdRoute: typeof SerieIdRoute
   ProgramacaoRoute: typeof ProgramacaoRoute
+  SeriesRoute: typeof SeriesRoute
   CanalIdRoute: typeof CanalIdRoute
   EsportesSlugRoute: typeof EsportesSlugRoute
+  FilmeIdRoute: typeof FilmeIdRoute
+  SerieIdRoute: typeof SerieIdRoute
   EsportesIndexRoute: typeof EsportesIndexRoute
 }
 
@@ -202,32 +203,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FilmesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/series': {
-      id: '/series'
-      path: '/series'
-      fullPath: '/series'
-      preLoaderRoute: typeof SeriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/filme/$id': {
-      id: '/filme/$id'
-      path: '/filme/$id'
-      fullPath: '/filme/$id'
-      preLoaderRoute: typeof FilmeIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/serie/$id': {
-      id: '/serie/$id'
-      path: '/serie/$id'
-      fullPath: '/serie/$id'
-      preLoaderRoute: typeof SerieIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/programacao': {
       id: '/programacao'
       path: '/programacao'
       fullPath: '/programacao'
       preLoaderRoute: typeof ProgramacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/series': {
+      id: '/series'
+      path: '/series'
+      fullPath: '/series'
+      preLoaderRoute: typeof SeriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/canal/$id': {
@@ -251,6 +238,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EsportesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/filme/$id': {
+      id: '/filme/$id'
+      path: '/filme/$id'
+      fullPath: '/filme/$id'
+      preLoaderRoute: typeof FilmeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/serie/$id': {
+      id: '/serie/$id'
+      path: '/serie/$id'
+      fullPath: '/serie/$id'
+      preLoaderRoute: typeof SerieIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -259,12 +260,12 @@ const rootRouteChildren: RootRouteChildren = {
   BuscaRoute: BuscaRoute,
   CanaisRoute: CanaisRoute,
   FilmesRoute: FilmesRoute,
-  SeriesRoute: SeriesRoute,
-  FilmeIdRoute: FilmeIdRoute,
-  SerieIdRoute: SerieIdRoute,
   ProgramacaoRoute: ProgramacaoRoute,
+  SeriesRoute: SeriesRoute,
   CanalIdRoute: CanalIdRoute,
   EsportesSlugRoute: EsportesSlugRoute,
+  FilmeIdRoute: FilmeIdRoute,
+  SerieIdRoute: SerieIdRoute,
   EsportesIndexRoute: EsportesIndexRoute,
 }
 export const routeTree = rootRouteImport
