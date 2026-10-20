@@ -5,6 +5,7 @@ import { channelsQuery, eventsQuery } from "@/lib/api";
 import { Carousel, carouselItem, ChannelCard, ErrorState, EventCard, SafeImg } from "@/components/mc/ui";
 import { eventStatus } from "@/lib/time";
 import { useNow } from "@/hooks/use-now";
+import { Recommendations } from "@/components/mc/Recommendations";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,6 +56,8 @@ function Home() {
           </div>
         </section>
       )}
+
+      <Recommendations />
 
       {live.length > 0 && (
         <Carousel title="Esportes ao vivo e a seguir" to={<Link to="/esportes" className="text-sm font-semibold text-primary">Ver agenda</Link>}>
