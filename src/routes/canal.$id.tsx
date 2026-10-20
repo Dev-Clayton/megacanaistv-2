@@ -23,6 +23,8 @@ export const Route = createFileRoute("/canal/$id")({
             { name: "description", content: `Assista ${loaderData.name} ao vivo e veja a programação na Mega Canais TV.` },
             { property: "og:title", content: `${loaderData.name} ao vivo — Mega Canais TV` },
             { property: "og:description", content: `Assista ${loaderData.name} ao vivo.` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
           ],
         }
       : { meta: [{ title: "Canal não encontrado — Mega Canais TV" }, { name: "robots", content: "noindex" }] },

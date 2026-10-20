@@ -68,6 +68,15 @@ export const fetchEpg = createServerFn({ method: "GET" }).handler(async () =>
   cached("epg", 10 * 60 * 1000, async () => normalizeEpg(await getJson([`${BASE}/epg_all`]))),
 );
 
+// Shared server implementation: HTTP handlers must not call server-function RPC stubs.
+export async function loadRecommendationSchedule() {
+  const [channels, epg] = await Promise.all([
+    cached("channels", 5 * 60 * 1000, async () => normalizeChannels(await getJson([`${BASE}/getcanais.json`, `${BASE}/channels`]))),
+    cached("epg", 10 * 60 * 1000, async () => normalizeEpg(await getJson([`${BASE}/epg_all`]))),
+  ]);
+  return { channels: channels.channels, epg };
+}
+
 export const channelsQuery = queryOptions({
   queryKey: ["channels"],
   queryFn: () => fetchChannels(),

@@ -8,7 +8,7 @@ import { EmptyState, ErrorState } from "@/components/mc/ui";
 
 const moviesQuery = { queryKey: ["catalog", "movies"], queryFn: () => fetchMovies(), staleTime: 15 * 60 * 1000 };
 export const Route = createFileRoute("/filmes")({
-  head: () => ({ meta: [{ title: "Filmes — Mega Canais TV" }, { name: "description", content: "Explore filmes pelo catálogo TMDB e assista pelo player integrado." }] }),
+  head: () => ({ meta: [{ title: "Filmes — Mega Canais TV" }, { name: "description", content: "Explore filmes pelo catálogo TMDB e assista pelo player integrado." }, { property: "og:title", content: "Filmes — Mega Canais TV" }, { property: "og:description", content: "Explore filmes pelo catálogo TMDB e assista pelo player integrado." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(moviesQuery),
   errorComponent: ({ reset }) => <ErrorState onRetry={reset} />,
   component: MoviesPage,

@@ -1,0 +1,3 @@
+- [x] Add AI recommendations grounded in current channel schedules on the home page.
+- [x] Preserve existing GitHub-added catalog, player, and compatibility changes; repair existing compilation errors minimally.
+- [x] Verify real recommendations, schedule filtering tests, and navigation to a recommended channel.

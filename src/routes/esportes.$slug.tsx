@@ -24,6 +24,8 @@ export const Route = createFileRoute("/esportes/$slug")({
             { name: "description", content: `${loaderData.title} pela ${loaderData.league}: assista ao vivo na Mega Canais TV.` },
             { property: "og:title", content: `${loaderData.title} — Mega Canais TV` },
             { property: "og:description", content: `${loaderData.league} ao vivo.` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
           ],
         }
       : { meta: [{ title: "Evento indisponível — Mega Canais TV" }, { name: "robots", content: "noindex" }] },

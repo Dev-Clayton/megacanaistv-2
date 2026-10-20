@@ -8,11 +8,11 @@ export type CatalogKind = "movie" | "tv" | "anime" | "dorama";
 export type CatalogItem = {
   id: string;
   title: string;
-  year?: string;
-  overview?: string;
-  poster?: string;
-  backdrop?: string;
-  rating?: number;
+  year?: string | undefined;
+  overview?: string | undefined;
+  poster?: string | undefined;
+  backdrop?: string | undefined;
+  rating?: number | undefined;
   kind: CatalogKind;
   seasons?: Record<string, Record<string, string>>;
 };
@@ -34,24 +34,24 @@ async function getText(url: string): Promise<string> {
 
 function extractNumericIds(raw: string): string[] {
   // A lista oficial é TXT com um ID por linha; também toleramos JSON ou separadores variados.
-  const source = raw.replace(/^\uFEFF/, "");
+  const source = raw["replace"](/^\uFEFF/, "");
   const values = source.match(/\b\d{1,12}\b/g) ?? [];
   return [...new Set(values)];
 }
 
 function parseListRows(raw: unknown): Record<string, any>[] {
-  if (Array.isArray(raw)) return raw.filter(object);
+  if (Array.isArray(raw)) return raw["filter"](object);
   if (!object(raw)) return [];
-  if (Array.isArray(raw.items)) return raw.items.filter(object);
-  if (Array.isArray(raw.results)) return raw.results.filter(object);
-  if (Array.isArray(raw.data)) return raw.data.filter(object);
+  if (Array.isArray(raw["items"])) return raw["items"].filter(object);
+  if (Array.isArray(raw["results"])) return raw["results"].filter(object);
+  if (Array.isArray(raw["data"])) return raw["data"].filter(object);
   return [];
 }
 function tmdbCredentials() {
   if (typeof process === "undefined") return {};
   return {
-    apiKey: process.env.TMDB_API_KEY,
-    accessToken: process.env.TMDB_ACCESS_TOKEN,
+    apiKey: process.env["TMDB_API_KEY"],
+    accessToken: process.env["TMDB_ACCESS_TOKEN"],
   };
 }
 
@@ -81,12 +81,12 @@ async function enrichWithTmdb(item: CatalogItem): Promise<CatalogItem> {
     if (!object(raw)) return item;
     return {
       ...item,
-      title: safeText(raw.title) ?? safeText(raw.name) ?? item.title,
-      year: (safeText(raw.release_date) ?? safeText(raw.first_air_date) ?? item.year)?.slice(0, 4),
-      overview: safeText(raw.overview) ?? item.overview,
-      poster: safeText(raw.poster_path) ? `${IMAGE}${raw.poster_path}` : item.poster,
-      backdrop: safeText(raw.backdrop_path) ? `https://image.tmdb.org/t/p/w1280${raw.backdrop_path}` : item.backdrop,
-      rating: typeof raw.vote_average === "number" ? raw.vote_average : item.rating,
+      title: safeText(raw["title"]) ?? safeText(raw["name"]) ?? item.title,
+      year: (safeText(raw["release_date"]) ?? safeText(raw["first_air_date"]) ?? item.year)?.slice(0, 4),
+      overview: safeText(raw["overview"]) ?? item.overview,
+      poster: safeText(raw["poster_path"]) ? `${IMAGE}${raw["poster_path"]}` : item.poster,
+      backdrop: safeText(raw["backdrop_path"]) ? `https://image.tmdb.org/t/p/w1280${raw["backdrop_path"]}` : item.backdrop,
+      rating: typeof raw["vote_average"] === "number" ? raw["vote_average"] : item.rating,
     };
   } catch {
     return item;
@@ -101,25 +101,25 @@ async function readSeriesList(kind: Exclude<CatalogKind, "movie">, enrich = true
   const seen = new Set<string>();
   for (const row of rows) {
     if (!object(row)) continue;
-    const id = String(row.id_tmdb ?? row.id ?? "").trim();
+    const id = String(row["id_tmdb"] ?? row["id"] ?? "").trim();
     if (!/^\d+$/.test(id) || seen.has(id)) continue;
     seen.add(id);
     const seasons: Record<string, Record<string, string>> = {};
-    const episodesRaw = object(row.episodios) ? row.episodios : {};
+    const episodesRaw = object(row["episodios"]) ? row["episodios"] : {};
     for (const [season, episodes] of Object.entries(episodesRaw)) {
       if (!object(episodes)) continue;
       seasons[season] = {};
       for (const [episode, url] of Object.entries(episodes)) {
-        if (typeof url === "string" && /^https:\/\/redeflixapi\.store\/serie\/\d+\/\d+\/\d+/.test(url)) seasons[season]![episode] = url;
+        if (typeof url === "string" && /^https:\/\/redeflixapi\.store\/serie\/\d+\/\d+\/\d+/.test(url)) (seasons[season] ??= {})[episode] = url;
       }
     }
-    const posterValue = safeText(row.poster) ?? safeText(row.poster_path);
+    const posterValue = safeText(row["poster"]) ?? safeText(row["poster_path"]);
     items.push({
       id,
-      title: safeText(row.nome) ?? `Série ${id}`,
-      year: row.ano == null ? undefined : String(row.ano),
+      title: safeText(row["nome"]) ?? `Série ${id}`,
+      year: row["ano"] == null ? undefined : String(row["ano"]),
       poster: posterValue?.startsWith("/") ? `${IMAGE}${posterValue}` : posterValue,
-      overview: safeText(row.sinopse) ?? safeText(row.overview),
+      overview: safeText(row["sinopse"]) ?? safeText(row["overview"]),
       kind,
       seasons,
     });

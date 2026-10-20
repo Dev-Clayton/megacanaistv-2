@@ -8,7 +8,7 @@ import { SafeImg, ErrorState } from "@/components/mc/ui";
 const movieQuery = (id: string) => ({ queryKey: ["catalog", "movie", id], queryFn: () => fetchMovieDetails({ data: { id } }) });
 export const Route = createFileRoute("/filme/$id")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(movieQuery(params.id)),
-  head: ({ loaderData }) => ({ meta: [{ title: `${loaderData?.title ?? "Filme"} — Mega Canais TV` }, { name: "description", content: loaderData?.overview ?? "Assista ao filme no Mega Canais TV." }] }),
+  head: ({ loaderData }) => ({ meta: [{ title: `${loaderData?.title ?? "Filme"} — Mega Canais TV` }, { name: "description", content: loaderData?.overview ?? "Assista ao filme no Mega Canais TV." }, { property: "og:title", content: `${loaderData?.title ?? "Filme"} — Mega Canais TV` }, { property: "og:description", content: loaderData?.overview ?? "Assista ao filme no Mega Canais TV." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   errorComponent: ({ reset }) => <ErrorState onRetry={reset} />,
   component: MoviePage,
 });
