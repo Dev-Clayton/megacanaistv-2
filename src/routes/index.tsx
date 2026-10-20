@@ -6,6 +6,7 @@ import { Carousel, carouselItem, ChannelCard, ErrorState, EventCard, SafeImg } f
 import { eventStatus } from "@/lib/time";
 import { useNow } from "@/hooks/use-now";
 import { Recommendations } from "@/components/mc/Recommendations";
+import type { ChannelsData } from "@/lib/types";
 
 export const Route = createFileRoute("/")({
   head: ({ loaderData }) => ({
@@ -23,7 +24,7 @@ export const Route = createFileRoute("/")({
       })(),
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(channelsQuery),
+  loader: async ({ context }): Promise<ChannelsData> => context.queryClient.ensureQueryData(channelsQuery),
   errorComponent: ({ reset }) => <ErrorState onRetry={reset} />,
   component: Home,
 });
